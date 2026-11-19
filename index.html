@@ -114,7 +114,7 @@
       transform: translateZ(-22px) scale(0.95);
     }
     .crest-layer-art {
-      transform: translateZ(20px);
+      transform: translateZ(22px);
     }
     .crest-layer-glare {
       transform: translateZ(38px);
@@ -172,13 +172,9 @@
     .animate-spin-slow { animation: spinSlow 24s linear infinite; }
 
     .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.active {
       opacity: 1;
       transform: translateY(0);
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
   </style>
 </head>
@@ -235,7 +231,7 @@
         <!-- Cursive Script "JhonJhonia" -->
         <text x="120" y="114" text-anchor="middle" fill="url(#jjscGoldGrad)" font-family="'Yellowtail', cursive" font-size="35" letter-spacing="0.5">JhonJhonia</text>
 
-        <!-- Bold Serif/Display "FC" -->
+        <!-- Bold Display "FC" -->
         <text x="120" y="146" text-anchor="middle" fill="url(#jjscGoldGrad)" font-family="'Oswald', sans-serif" font-weight="700" font-size="27" letter-spacing="3">FC</text>
 
         <!-- Flaming Football -->
@@ -273,10 +269,8 @@
       <div class="flex items-center justify-between h-20">
         <!-- Brand Crest Button (Clicking pops Main Three!) -->
         <button type="button" onclick="openMainThree('all')" class="flex items-center gap-3 group text-left focus:outline-none" title="Click Crest to Reveal The Main Three">
-          <div class="w-11 h-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-            <svg class="w-full h-full drop-shadow-[0_0_12px_rgba(250,204,21,0.45)]">
-              <use href="#jjsc-crest-symbol"></use>
-            </svg>
+          <div id="nav-crest-slot" class="w-11 h-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+            <img id="nav-crest-img" src="Gemini_Generated_Image_vkr2ayvkr2ayvkr2-removebg-preview.jpg" alt="JJSC FC Crest" class="w-full h-full object-contain rounded-lg drop-shadow-[0_0_12px_rgba(250,204,21,0.45)]" />
           </div>
           <div>
             <div class="flex items-center gap-2">
@@ -330,10 +324,8 @@
   <!-- 2. HERO & 3D CREST SANCTUM (CLICK CREST TO POP MAIN THREE)            -->
   <!-- ===================================================================== -->
   <section id="sanctum" class="relative pt-28 pb-20 overflow-hidden jersey-wave-bg">
-    <!-- Ambient Gold Particle Canvas (Auto-pauses offscreen) -->
     <canvas id="hero-particles" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
 
-    <!-- Stadium Floodlight Spotlights -->
     <div class="absolute -top-32 left-1/4 w-[460px] h-[460px] bg-cobalt-500/25 rounded-full blur-[130px] pointer-events-none"></div>
     <div class="absolute bottom-0 right-10 w-[420px] h-[420px] bg-gold-400/15 rounded-full blur-[130px] pointer-events-none"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-navy-950/60 via-transparent to-navy-900 pointer-events-none"></div>
@@ -361,19 +353,21 @@
           <!-- Left 5 Cols: 3D Perspective Shield Crest Stage -->
           <div id="jjsc-3d-stage" class="lg:col-span-5 crest-3d-stage flex flex-col items-center justify-center py-4">
             <div class="relative flex items-center justify-center">
-              <!-- Outer Gold Orbit Ring -->
               <div class="absolute -inset-6 rounded-full border border-dashed border-gold-400/35 animate-spin-slow pointer-events-none"></div>
               <div class="absolute inset-4 rounded-full bg-cobalt-500/30 blur-2xl pointer-events-none"></div>
 
               <!-- 3D Tiltable Crest Card -->
-              <div id="jjsc-3d-card" class="crest-3d-card w-56 h-64 sm:w-64 sm:h-76 flex items-center justify-center" title="Move pointer to tilt in 3D • Click to reveal The Main Three">
-                <div class="crest-layer-back absolute inset-3 rounded-full bg-gradient-to-tr from-gold-400/25 via-cobalt-500/25 to-transparent blur-md"></div>
-                <div class="crest-layer-art relative w-full h-full flex items-center justify-center">
-                  <svg class="w-full h-full">
-                    <use href="#jjsc-crest-symbol"></use>
-                  </svg>
+              <div id="jjsc-3d-card" class="crest-3d-card w-56 h-68 sm:w-64 sm:h-76 flex items-center justify-center rounded-2xl overflow-hidden border-2 border-gold-400/70 bg-navy-950" title="Move pointer to tilt in 3D • Click to reveal The Main Three">
+                <div class="crest-layer-back absolute inset-2 rounded-2xl bg-gradient-to-tr from-gold-400/20 via-cobalt-500/20 to-transparent pointer-events-none"></div>
+                <div id="jjsc-3d-art-slot" class="crest-layer-art relative w-full h-full flex items-center justify-center">
+                  <img
+                    id="jjsc-hero-crest-img"
+                    src="Gemini_Generated_Image_vkr2ayvkr2ayvkr2-removebg-preview.jpg"
+                    alt="JhonJhonia FC Official Crest"
+                    class="w-full h-full object-contain block opacity-100 visible"
+                  />
                 </div>
-                <div id="jjsc-3d-glare" class="crest-layer-glare absolute inset-0 rounded-3xl"></div>
+                <div id="jjsc-3d-glare" class="crest-layer-glare absolute inset-0 rounded-2xl"></div>
               </div>
             </div>
 
@@ -442,7 +436,7 @@
       <div class="flex flex-wrap items-center justify-center gap-5 sm:gap-8">
         <span class="px-3.5 py-1.5 rounded-lg bg-navy-850 border border-gold-400/30 font-jersey font-bold text-2xl tracking-widest text-gold-400">JJSC FC</span>
         <span class="px-3.5 py-1.5 rounded-lg bg-navy-850 border border-white/10 font-display font-bold text-xl tracking-wider text-white">ATN</span>
-        <span class="px-3 py-1.5 rounded bg-white text-navy-950 font-display font-bold text-xs tracking-wider uppercase flex items-center gap-1.5 shadow">
+        <span class="px-3.5 py-1.5 rounded bg-white text-navy-950 font-display font-bold text-xs tracking-wider uppercase flex items-center gap-1.5 shadow">
           <span class="w-2 h-3 bg-red-500 inline-block -skew-x-12"></span>
           <span class="w-2 h-3 bg-cyan-500 inline-block -skew-x-12"></span>
           <span>SPORTS BANGLA</span>
@@ -523,19 +517,12 @@
               <button type="button" id="kit-save-squad-btn" class="flex-1 py-3 rounded-xl bg-gold-400 hover:bg-gold-300 text-navy-950 font-display font-bold text-sm uppercase tracking-wider transition-all">
                 Sync to Squad &amp; Pitch
               </button>
-              <button type="button" id="kit-reset-btn" class="px-4 py-3 rounded-xl bg-navy-950 hover:bg-navy-800 text-slate-300 border border-white/15 font-display font-bold text-sm uppercase tracking-wider transition-all">
+              <button type="button" id="kit-reset-btn" class="px-4 py-3 rounded-xl bg-navy-950 hover:bg-navy-800 border border-white/15 text-slate-200 font-display font-bold text-sm uppercase tracking-wider transition-all">
                 Reset
               </button>
             </div>
 
-            <div class="pt-3 border-t border-white/15 grid grid-cols-2 gap-2.5 text-xs text-slate-200">
-              <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-cobalt-500"></span>Cobalt Wave Camo</div>
-              <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-white"></span>White Crew Collar</div>
-              <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-gold-400"></span>JJSC FC Chest Print</div>
-              <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>Sports Bangla Hem</div>
-              <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-slate-200"></span>ATN Sleeve Print</div>
-              <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>BD Map &amp; SSLCommerz</div>
-            </div>
+            <div id="kit-sync-banner" class="hidden p-3 rounded-xl bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 text-xs font-semibold text-center"></div>
           </div>
         </div>
       </div>
@@ -543,89 +530,101 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 4. INTERACTIVE 3D MOVABLE TACTICAL FORMATION BOARD & POSTER EXPORT    -->
+  <!-- 4. 3D MOVABLE TACTICAL FORMATION BOARD + POSTER & SHARE TOOLS        -->
   <!-- ===================================================================== -->
-  <section id="tactics" class="py-24 relative jersey-wave-bg border-t border-white/10 overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-b from-navy-900 via-navy-950/90 to-navy-900 pointer-events-none"></div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8 reveal">
+  <section id="tactics" class="py-24 bg-navy-950 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 reveal">
         <div>
-          <span class="text-xs font-extrabold tracking-[0.25em] uppercase text-emerald-400 block mb-2">Interactive Matchday Strategy</span>
+          <span class="text-xs font-extrabold tracking-[0.25em] uppercase text-gold-400 block mb-2">Interactive Matchday Command</span>
           <h2 class="font-display font-bold text-4xl sm:text-5xl uppercase tracking-tight text-white">
-            3D Tactical <span class="text-gold-metallic">Formation Board</span>
+            3D Movable <span class="text-gold-metallic">Formation Board</span>
           </h2>
-          <p class="text-slate-300 mt-2 max-w-2xl text-sm sm:text-base">
-            Drag any JJSC FC player freely across the 3D turf pitch, switch formations, export a <strong>1080×1920 Matchday Story PNG</strong>, or copy a shareable lineup link for your WhatsApp group.
+          <p class="text-slate-300 mt-2 text-sm sm:text-base max-w-2xl">
+            Drag any player token freely across the 3D turf, switch formations, toggle 3D pitch tilt, export a <strong class="text-white">1080×1920 Matchday Story PNG</strong>, or copy a shareable lineup link.
           </p>
         </div>
 
         <!-- Formation Presets -->
-        <div class="flex flex-wrap gap-2">
-          <button type="button" data-formation="6v6-diamond" class="formation-btn px-4 py-2.5 rounded-xl bg-gold-400 text-navy-950 font-display font-bold text-xs sm:text-sm uppercase tracking-wider shadow-lg">6v6 Diamond</button>
-          <button type="button" data-formation="6v6-attack" class="formation-btn px-4 py-2.5 rounded-xl bg-navy-850 border border-white/15 text-slate-200 hover:border-gold-400 font-display font-bold text-xs sm:text-sm uppercase tracking-wider">6v6 Attack</button>
-          <button type="button" data-formation="7v7-turf" class="formation-btn px-4 py-2.5 rounded-xl bg-navy-850 border border-white/15 text-slate-200 hover:border-gold-400 font-display font-bold text-xs sm:text-sm uppercase tracking-wider">7v7 Turf</button>
-          <button type="button" data-formation="11v11-full" class="formation-btn px-4 py-2.5 rounded-xl bg-navy-850 border border-white/15 text-slate-200 hover:border-gold-400 font-display font-bold text-xs sm:text-sm uppercase tracking-wider">11v11 Full</button>
-        </div>
-      </div>
-
-      <!-- Pro Tactics Action Toolbar -->
-      <div class="glass-panel rounded-2xl p-4 mb-6 flex flex-wrap items-center justify-between gap-3 border border-gold-400/25">
-        <div class="flex flex-wrap items-center gap-2.5">
-          <button type="button" id="jjsc-export-poster" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-gold-400 to-gold-500 text-navy-950 font-display font-bold text-xs sm:text-sm uppercase tracking-wider shadow hover:brightness-110 transition-all">
-            📸 Download Story Poster (1080×1920)
-          </button>
-          <button type="button" id="jjsc-share-lineup" class="px-4 py-2.5 rounded-xl bg-navy-800 hover:bg-cobalt-500 text-white border border-gold-400/40 font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition-all">
-            🔗 Copy Shareable Lineup Link
-          </button>
-          <button type="button" id="jjsc-toggle-lock" class="px-4 py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-slate-200 border border-white/15 font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition-all">
-            🔓 Pitch Unlocked
-          </button>
-        </div>
-
-        <div class="flex flex-wrap items-center gap-3">
-          <label for="pitch-tilt-slider" class="text-xs font-bold uppercase tracking-wider text-gold-300">
-            3D Tilt: <span id="pitch-tilt-value" class="text-white">32°</span>
-          </label>
-          <input type="range" id="pitch-tilt-slider" min="0" max="50" value="32" class="w-28 sm:w-36 accent-[#facc15] cursor-pointer" />
-          <button type="button" id="jjsc-reset-state" class="px-3.5 py-2 rounded-xl bg-navy-950 hover:bg-red-950/60 text-slate-300 hover:text-red-300 border border-white/15 text-xs font-bold uppercase tracking-wider transition-all">
-            ↺ Reset State
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" data-formation="4-3-3" class="formation-btn px-4 py-2.5 rounded-xl bg-gold-400 text-navy-950 font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition-all">4-3-3 Attack</button>
+          <button type="button" data-formation="4-4-2" class="formation-btn px-4 py-2.5 rounded-xl bg-navy-850 text-slate-200 hover:text-gold-300 border border-white/15 font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition-all">4-4-2 Classic</button>
+          <button type="button" data-formation="3-5-2" class="formation-btn px-4 py-2.5 rounded-xl bg-navy-850 text-slate-200 hover:text-gold-300 border border-white/15 font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition-all">3-5-2 Wingback</button>
+          <button type="button" id="pitch-3d-toggle" class="px-4 py-2.5 rounded-xl bg-cobalt-500/30 hover:bg-cobalt-500/50 text-white border border-cobalt-400/50 font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition-all">
+            3D Tilt: ON
           </button>
         </div>
       </div>
 
-      <!-- 3D Pitch + Active Bench Grid -->
-      <div id="tactics-board-wrapper" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div class="lg:col-span-8 flex flex-col items-center">
-          <div class="w-full pitch-viewport py-3 sm:py-5 flex items-center justify-center overflow-hidden">
-            <div id="pitch-3d-board" style="transform: rotateX(32deg);" class="pitch-3d-surface relative w-full max-w-2xl aspect-[16/11] rounded-2xl select-none">
-              <svg viewBox="0 0 800 550" class="absolute inset-0 w-full h-full pointer-events-none opacity-80">
-                <rect x="24" y="20" width="752" height="510" fill="none" stroke="#ffffff" stroke-width="3.5" />
-                <line x1="400" y1="20" x2="400" y2="530" stroke="#ffffff" stroke-width="3" />
-                <circle cx="400" cy="275" r="68" fill="none" stroke="#ffffff" stroke-width="3" />
-                <circle cx="400" cy="275" r="5" fill="#ffffff" />
-                <rect x="24" y="135" width="115" height="280" fill="none" stroke="#ffffff" stroke-width="3" />
-                <rect x="24" y="205" width="44" height="140" fill="none" stroke="#ffffff" stroke-width="2.5" />
-                <rect x="661" y="135" width="115" height="280" fill="none" stroke="#ffffff" stroke-width="3" />
-                <rect x="732" y="205" width="44" height="140" fill="none" stroke="#ffffff" stroke-width="2.5" />
-                <text x="400" y="284" text-anchor="middle" fill="#ffffff" opacity="0.14" font-family="'Oswald', sans-serif" font-weight="700" font-size="36" letter-spacing="6">JJSC FC GOPALGONJ</text>
-              </svg>
-              <div id="pitch-tokens-layer" class="absolute inset-0 w-full h-full"></div>
+      <!-- Pro Tactics Action Bar -->
+      <div class="flex flex-wrap items-center gap-2.5 mb-8">
+        <button type="button" id="jjsc-export-poster" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-gold-400 to-gold-500 text-navy-950 font-bold text-xs sm:text-sm shadow-lg hover:brightness-110 transition-all">
+          📸 Download Lineup Story (1080×1920)
+        </button>
+        <button type="button" id="jjsc-share-lineup" class="px-4 py-2.5 rounded-xl bg-navy-800 hover:bg-cobalt-500 text-white border border-gold-400/40 font-bold text-xs sm:text-sm transition-all">
+          🔗 Copy Shareable Lineup Link
+        </button>
+        <button type="button" id="jjsc-toggle-lock" class="px-4 py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-slate-200 border border-white/15 font-bold text-xs sm:text-sm transition-all">
+          🔓 Pitch Unlocked (Tap to Lock Scroll)
+        </button>
+        <button type="button" onclick="openMainThree('all')" class="px-4 py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-gold-300 border border-gold-400/35 font-bold text-xs sm:text-sm transition-all">
+          👑 Main Three Command
+        </button>
+        <button type="button" id="jjsc-reset-data" class="px-4 py-2.5 rounded-xl bg-navy-900 hover:bg-red-950/60 text-slate-300 hover:text-red-200 border border-white/10 font-bold text-xs sm:text-sm transition-all">
+          ↺ Reset Saved State
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+        <!-- Left 8 Cols: 3D Pitch Surface -->
+        <div class="xl:col-span-8 pitch-viewport py-2">
+          <div id="pitch-3d-surface" class="pitch-3d-surface relative w-full h-[540px] sm:h-[620px] rounded-3xl overflow-hidden select-none" style="transform: rotateX(18deg) rotateZ(0deg);">
+            <!-- Pitch Line Markings -->
+            <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 800 600" preserveAspectRatio="none">
+              <rect x="24" y="24" width="752" height="552" rx="8" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="3" />
+              <line x1="24" y1="300" x2="776" y2="300" stroke="rgba(255,255,255,0.45)" stroke-width="3" />
+              <circle cx="400" cy="300" r="76" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="3" />
+              <circle cx="400" cy="300" r="5" fill="rgba(250,204,21,0.85)" />
+              <rect x="210" y="24" width="380" height="105" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" />
+              <rect x="295" y="24" width="210" height="42" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" />
+              <rect x="210" y="471" width="380" height="105" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" />
+              <rect x="295" y="534" width="210" height="42" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" />
+            </svg>
+
+            <div class="absolute top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-navy-950/70 border border-white/15 text-[10px] font-bold uppercase tracking-widest text-slate-300 pointer-events-none">
+              Attacking End &uarr;
+            </div>
+
+            <!-- Draggable Player Tokens Injected Here -->
+            <div id="pitch-tokens-layer" class="absolute inset-0"></div>
+
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-navy-950/70 border border-gold-400/30 text-[10px] font-bold uppercase tracking-widest text-gold-300 pointer-events-none">
+              JJSC FC Goal &bull; Gopalgonj
             </div>
           </div>
         </div>
 
-        <!-- Right 4 Cols: Bench & Pitch Toggle -->
-        <div class="lg:col-span-4">
-          <div class="glass-gold rounded-3xl p-5 sm:p-6 space-y-4">
+        <!-- Right 4 Cols: Selected Player Inspector & Bench -->
+        <div class="xl:col-span-4 space-y-6">
+          <div class="glass-gold rounded-3xl p-6 space-y-4">
             <div class="flex items-center justify-between border-b border-white/15 pb-3">
-              <div>
-                <h3 class="font-display font-bold text-xl uppercase text-white">Squad Lineup &amp; Bench</h3>
-                <p class="text-xs text-slate-300">Add or sub players onto the 3D pitch</p>
-              </div>
-              <span id="on-pitch-counter" class="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-display font-bold text-xs uppercase">6 On Pitch</span>
+              <span class="text-xs font-extrabold uppercase tracking-widest text-gold-400">Selected Token</span>
+              <span id="inspector-badge" class="px-2.5 py-0.5 rounded-full bg-gold-400 text-navy-950 font-jersey font-bold text-lg">#17</span>
             </div>
-            <div id="tactics-squad-list" class="space-y-2 max-h-[380px] overflow-y-auto pr-1"></div>
+            <div>
+              <h3 id="inspector-name" class="font-display font-bold text-2xl uppercase text-white">Aariz</h3>
+              <p id="inspector-role" class="text-xs font-semibold text-gold-300 uppercase tracking-wider mt-0.5">Captain &bull; Forward</p>
+              <p id="inspector-coords" class="text-[11px] text-slate-400 mt-2">Pitch Coordinates: X 50% &bull; Y 24%</p>
+            </div>
+            <button type="button" id="inspector-edit-jersey-btn" class="w-full py-2.5 rounded-xl bg-navy-950 hover:bg-navy-800 border border-gold-400/40 text-gold-300 font-display font-bold text-xs uppercase tracking-wider transition-all">
+              Customize in 2026 Jersey Studio &rarr;
+            </button>
+          </div>
+
+          <div class="glass-panel rounded-3xl p-6 space-y-3">
+            <h4 class="font-display font-bold text-lg uppercase text-white">Squad Bench &amp; Reserves</h4>
+            <p class="text-xs text-slate-400">Click any squad member below to inspect or swap onto the pitch.</p>
+            <div id="bench-list" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
           </div>
         </div>
       </div>
@@ -633,1170 +632,915 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 5. COMPLETE 12-PLAYER GOPALGONJ SQUAD ROSTER                          -->
+  <!-- 5. 12-PLAYER SQUAD ROSTER                                             -->
   <!-- ===================================================================== -->
-  <section id="squad" class="py-24 bg-navy-900 border-t border-white/10">
+  <section id="squad" class="py-24 bg-navy-900 relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
         <div>
           <span class="text-xs font-extrabold tracking-[0.25em] uppercase text-gold-400 block mb-2">Gopalgonj First Team</span>
           <h2 class="font-display font-bold text-4xl sm:text-5xl uppercase tracking-tight text-white">
-            JJSC FC <span class="text-gold-metallic">12-Player Roster</span>
+            JJSC FC <span class="text-gold-metallic">12-Man Squad</span>
           </h2>
-          <p class="text-slate-400 mt-2 text-sm sm:text-base">
-            Click any player card to load their kit directly into the 2026 Jersey Studio.
-          </p>
         </div>
 
-        <!-- Role Filter Tabs -->
-        <div class="flex flex-wrap gap-1.5 bg-navy-950 p-1.5 rounded-2xl border border-white/10">
-          <button type="button" data-role-filter="all" class="role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase bg-gold-400 text-navy-950">All (12)</button>
-          <button type="button" data-role-filter="Leadership" class="role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase text-slate-300 hover:text-white">Leadership</button>
-          <button type="button" data-role-filter="Attack" class="role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase text-slate-300 hover:text-white">Attack</button>
-          <button type="button" data-role-filter="Midfield" class="role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase text-slate-300 hover:text-white">Midfield</button>
-          <button type="button" data-role-filter="Defense" class="role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase text-slate-300 hover:text-white">Defense</button>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" data-role-filter="ALL" class="role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase bg-gold-400 text-navy-950">All (12)</button>
+          <button type="button" data-role-filter="FWD" class="role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase text-slate-300 hover:text-white bg-navy-950 border border-white/10">Forwards</button>
+          <button type="button" data-role-filter="MID" class="role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase text-slate-300 hover:text-white bg-navy-950 border border-white/10">Midfielders</button>
+          <button type="button" data-role-filter="DEF" class="role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase text-slate-300 hover:text-white bg-navy-950 border border-white/10">Defenders</button>
+          <button type="button" data-role-filter="GK" class="role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase text-slate-300 hover:text-white bg-navy-950 border border-white/10">Goalkeeper</button>
         </div>
       </div>
 
-      <div id="squad-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+      <div id="squad-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 6. GOPALGONJ HERITAGE & TROPHY CABINET                                -->
+  <!-- 6. HERITAGE, MAIN THREE LEADERSHIP & TROPHIES                         -->
   <!-- ===================================================================== -->
-  <section id="heritage" class="py-24 relative jersey-wave-bg border-t border-white/10">
-    <div class="absolute inset-0 bg-gradient-to-b from-navy-900 via-navy-950/90 to-navy-900 pointer-events-none"></div>
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center reveal">
-        <div class="lg:col-span-6 space-y-5">
-          <span class="text-xs font-extrabold tracking-[0.25em] uppercase text-gold-400 block">Gopalgonj Turf Legacy</span>
-          <h2 class="font-display font-bold text-4xl sm:text-5xl uppercase tracking-tight text-white">
-            Born in <span class="text-gold-metallic">Gopalgonj</span>, Built to Conquer
-          </h2>
-          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-            <strong>JJSC FC (JhonJhonia Football Club)</strong> unites Gopalgonj's sharpest footballers under one crest. Guided by President <strong>Meherun Nesa</strong>, Organiser &amp; Captain <strong>Aariz Hamza (#17)</strong>, Co-Organiser <strong>Hamza (#47)</strong>, and Funding Manager <strong>Nafiz (#7)</strong>, we bring relentless energy to every floodlight turf clash.
-          </p>
-          <div class="grid grid-cols-2 gap-4 pt-2">
-            <div class="glass-panel rounded-2xl p-4 border-l-2 border-gold-400">
-              <div class="font-display font-bold text-lg text-white uppercase">Home Arena</div>
-              <div class="text-xs text-slate-300 mt-1">Gopalgonj Sadar &amp; District Turf Grounds</div>
-            </div>
-            <div class="glass-panel rounded-2xl p-4 border-l-2 border-emerald-400">
-              <div class="font-display font-bold text-lg text-white uppercase">Club Creed</div>
-              <div class="text-xs text-slate-300 mt-1">"One Crest. One Brotherhood. Never Back Down."</div>
-            </div>
-          </div>
+  <section id="heritage" class="py-24 bg-navy-950 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <div class="text-center max-w-3xl mx-auto reveal">
+        <span class="text-xs font-extrabold tracking-[0.25em] uppercase text-gold-400 block mb-2">Leadership &amp; Identity</span>
+        <h2 class="font-display font-bold text-4xl sm:text-5xl uppercase tracking-tight text-white">
+          Heritage &amp; <span class="text-gold-metallic">The Main Three</span>
+        </h2>
+        <p class="text-slate-300 mt-3 text-sm sm:text-base">
+          Rooted in JhonJhonia, Gopalgonj—guided by President <strong class="text-white">Meherun Nesa</strong>, Organiser &amp; Captain <strong class="text-gold-300">Aariz Hamza (#17)</strong>, and Funding Manager <strong class="text-emerald-300">Nafiz (#7)</strong>.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-gold rounded-3xl p-7 space-y-3">
+          <span class="text-xs font-extrabold uppercase tracking-widest text-gold-400">President</span>
+          <h3 class="font-display font-bold text-2xl uppercase text-white">Meherun Nesa</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">Leads JhonJhonia Football Club's vision, discipline, and club standards across Gopalgonj matches and tournaments.</p>
         </div>
-
-        <div class="lg:col-span-6">
-          <div class="glass-gold rounded-3xl p-6 sm:p-8 space-y-5">
-            <div class="flex items-center justify-between border-b border-white/15 pb-4">
-              <div>
-                <span class="text-[11px] font-extrabold uppercase tracking-widest text-gold-400">Honours &amp; Silverware</span>
-                <h3 class="font-display font-bold text-2xl sm:text-3xl uppercase text-white">JJSC Trophy Cabinet</h3>
-              </div>
-              <span class="text-3xl">🏆</span>
-            </div>
-
-            <div class="space-y-3">
-              <div class="p-4 rounded-2xl bg-navy-950/80 border border-gold-400/35 flex items-center justify-between gap-3">
-                <div>
-                  <div class="font-display font-bold text-lg text-white uppercase">🥇 Gopalgonj Floodlight Turf Cup</div>
-                  <div class="text-xs text-slate-400">Unbeaten Champions &bull; Gopalgonj Sadar</div>
-                </div>
-                <span class="px-3 py-1 rounded-full bg-gold-400 text-navy-950 font-display font-bold text-xs uppercase">Winners</span>
-              </div>
-              <div class="p-4 rounded-2xl bg-navy-950/80 border border-white/10 flex items-center justify-between gap-3">
-                <div>
-                  <div class="font-display font-bold text-lg text-white uppercase">🏅 JhonJhonia Super 6s Invitational</div>
-                  <div class="text-xs text-slate-400">Host &amp; Title Defenders</div>
-                </div>
-                <span class="px-3 py-1 rounded-full bg-cobalt-500/60 text-blue-200 font-display font-bold text-xs uppercase">Champions</span>
-              </div>
-              <div class="p-4 rounded-2xl bg-navy-950/80 border border-white/10 flex items-center justify-between gap-3">
-                <div>
-                  <div class="font-display font-bold text-lg text-white uppercase">⚡ 2026 Inter-Club Form</div>
-                  <div class="text-xs text-slate-400">82% Win Rate Across Regional Friendlies</div>
-                </div>
-                <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-display font-bold text-xs uppercase">Active</span>
-              </div>
-            </div>
-          </div>
+        <div class="glass-gold rounded-3xl p-7 space-y-3 border-gold-400/60">
+          <span class="text-xs font-extrabold uppercase tracking-widest text-blue-300">Organiser &amp; Captain &bull; #17</span>
+          <h3 class="font-display font-bold text-2xl uppercase text-white">Aariz Hamza</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">Coordinates fixtures, matchday challenges, and tactical intensity on the pitch wearing #17 for JJSC FC.</p>
+        </div>
+        <div class="glass-gold rounded-3xl p-7 space-y-3">
+          <span class="text-xs font-extrabold uppercase tracking-widest text-emerald-400">Funding Manager &bull; #7</span>
+          <h3 class="font-display font-bold text-2xl uppercase text-white">Nafiz</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">Oversees club finances, turf bookings, matchday logistics, and 2026 kit operations from squad #7.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 7. DIRECT WHATSAPP MATCH CHALLENGE HUB (+880 1925-114987)             -->
+  <!-- 7. DIRECT WHATSAPP MATCH CHALLENGE HUB (+880 1925-114987)              -->
   <!-- ===================================================================== -->
-  <section id="challenge" class="py-24 bg-navy-900 border-t border-white/10">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
-      <div class="glass-gold rounded-3xl p-6 sm:p-10 border border-emerald-500/40 shadow-2xl space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/15 pb-5">
-          <div>
-            <span class="text-xs font-extrabold tracking-[0.22em] uppercase text-emerald-400 block mb-1">Direct Matchdesk &bull; Gopalgonj</span>
-            <h2 class="font-display font-bold text-3xl sm:text-4xl uppercase text-white">Challenge JJSC FC</h2>
-            <p class="text-xs sm:text-sm text-slate-300 mt-1">
-              Ready for a turf showdown in Gopalgonj? Fill in your match details to launch a pre-formatted WhatsApp challenge directly to our official line.
-            </p>
-          </div>
-          <div class="px-4 py-3 rounded-2xl bg-emerald-950/70 border border-emerald-500/40 text-left sm:text-right">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-300 block">Official WhatsApp</span>
-            <span class="font-mono font-bold text-base sm:text-lg text-white">+880 1925-114987</span>
-          </div>
+  <section id="challenge" class="py-24 bg-navy-900 relative">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="glass-gold rounded-3xl p-7 sm:p-10 shadow-2xl space-y-6">
+        <div class="text-center space-y-2">
+          <span class="text-xs font-extrabold uppercase tracking-[0.24em] text-gold-400">Gopalgonj Matchday Dispatch</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl uppercase text-white">
+            Challenge <span class="text-gold-metallic">JJSC FC</span> on WhatsApp
+          </h2>
+          <p class="text-sm text-slate-300">Direct Club Line: <strong class="text-gold-300">+880 1925-114987</strong></p>
         </div>
 
-        <form id="whatsapp-challenge-form" class="space-y-4">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label for="opp-club-name" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Challenger Club Name *</label>
-              <input type="text" id="opp-club-name" required placeholder="e.g., Gopalgonj Kings FC"
-                class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-400" />
-            </div>
-            <div>
-              <label for="match-format" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Format</label>
-              <select id="match-format" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-white/15 text-sm text-white font-semibold focus:outline-none focus:border-gold-400">
-                <option value="6v6 Turf Match">6v6 Turf Match</option>
-                <option value="7v7 Turf Match">7v7 Turf Match</option>
-                <option value="11v11 Full Ground">11v11 Full Ground</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label for="match-datetime" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Preferred Date &amp; Time *</label>
-              <input type="text" id="match-datetime" required placeholder="e.g., Friday 8:30 PM"
-                class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-400" />
-            </div>
-            <div>
-              <label for="match-venue" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Gopalgonj Turf Venue *</label>
-              <input type="text" id="match-venue" required placeholder="e.g., Gopalgonj Sadar Turf"
-                class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-400" />
-            </div>
-          </div>
-
+        <form id="whatsapp-challenge-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="match-extra-note" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Notes (Optional)</label>
-            <input type="text" id="match-extra-note" placeholder="Turf split, kit color, or captain contact..."
-              class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-400" />
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Opponent Team Name</label>
+            <input type="text" id="challenger-team" required placeholder="e.g. Gopalgonj United FC"
+              class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-white/15 text-white text-sm focus:outline-none focus:border-gold-400" />
           </div>
-
-          <div class="p-3.5 rounded-xl bg-navy-950/90 border border-white/10 text-xs">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-gold-400 block mb-1">Live WhatsApp Message Preview:</span>
-            <p id="whatsapp-preview-text" class="font-mono text-[11px] text-slate-200 leading-relaxed"></p>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Match Format</label>
+            <select id="challenger-format" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-white/15 text-white text-sm focus:outline-none focus:border-gold-400">
+              <option value="11v11 Full Pitch">11v11 Full Pitch</option>
+              <option value="8v8 Turf Match">8v8 Turf Match</option>
+              <option value="7v7 / 6v6 Showdown">7v7 / 6v6 Showdown</option>
+            </select>
           </div>
-
-          <button type="submit" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-emerald-400 to-emerald-600 text-navy-950 font-display font-bold text-lg uppercase tracking-wider shadow-[0_10px_28px_rgba(16,185,129,0.35)] hover:brightness-110 transition-all">
-            💬 Send Challenge to +880 1925-114987
-          </button>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Preferred Date / Time</label>
+            <input type="text" id="challenger-date" placeholder="e.g. Friday 4:30 PM"
+              class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-white/15 text-white text-sm focus:outline-none focus:border-gold-400" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Venue / Ground</label>
+            <input type="text" id="challenger-venue" placeholder="e.g. JhonJhonia / Gopalgonj Ground"
+              class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-white/15 text-white text-sm focus:outline-none focus:border-gold-400" />
+          </div>
+          <div class="sm:col-span-2">
+            <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:brightness-110 text-white font-display font-bold text-base uppercase tracking-wider shadow-lg transition-all">
+              Send Match Challenge via WhatsApp (+880 1925-114987)
+            </button>
+          </div>
         </form>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- FOOTER                                                                -->
+  <!-- 8. FOOTER                                                             -->
   <!-- ===================================================================== -->
-  <footer class="bg-navy-950 border-t border-white/10 py-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-      <div class="flex items-center gap-3">
-        <svg class="w-9 h-11"><use href="#jjsc-crest-symbol"></use></svg>
-        <div>
-          <div class="font-display font-bold text-lg text-white tracking-wider">JJSC FC &mdash; JHONJHONIA FOOTBALL CLUB</div>
-          <div class="text-xs text-slate-400">Gopalgonj, Bangladesh &bull; President: Meherun Nesa &bull; Organisers: Aariz &amp; Hamza &bull; Funding: Nafiz</div>
-        </div>
-      </div>
-      <div class="text-xs text-slate-400">
-        Official Hub: <a href="https://aariz17.github.io/JJSC-FC/" class="text-gold-400 hover:underline">aariz17.github.io/JJSC-FC</a>
-      </div>
-    </div>
+  <footer class="bg-navy-950 border-t border-white/10 py-10 text-center text-xs text-slate-400 space-y-2">
+    <p class="font-display font-bold text-lg uppercase tracking-wider text-white">JJSC FC &bull; JhonJhonia Football Club</p>
+    <p>Gopalgonj, Bangladesh &bull; WhatsApp: +880 1925-114987 &bull; Partners: ATN, Sports Bangla, SSLCommerz, Spized</p>
+    <p class="text-slate-500">https://aariz17.github.io/JJSC-FC/</p>
   </footer>
 
   <!-- ===================================================================== -->
-  <!-- THE MAIN THREE COMMAND MODAL (SUMMONED ON 3D CREST CLICK)             -->
+  <!-- MAIN THREE POP MODAL (SUMMONED WHEN CLICKING CREST OR COMMAND BUTTON) -->
   <!-- ===================================================================== -->
-  <div id="jjsc-main-three-modal" role="dialog" aria-modal="true" aria-labelledby="jjsc-modal-title"
-       class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-navy-950/85 backdrop-blur-md">
-    <div class="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto glass-gold rounded-3xl p-6 sm:p-8 border-2 border-gold-400/70 shadow-2xl">
-      <div class="flex items-start justify-between gap-4 border-b border-gold-400/25 pb-4 mb-5">
-        <div>
-          <span class="text-[11px] font-extrabold uppercase tracking-[0.2em] text-gold-400 block">JHONJHONIA FOOTBALL CLUB &bull; GOPALGONJ</span>
-          <h3 id="jjsc-modal-title" class="font-display font-bold text-2xl sm:text-3xl uppercase text-white mt-0.5">
-            THE MAIN THREE &mdash; JJSC FC COMMAND
-          </h3>
+  <div id="jjsc-main-three-modal" class="fixed inset-0 z-[99998] hidden items-center justify-center p-4 bg-navy-950/85 backdrop-blur-md" role="dialog" aria-modal="true" aria-labelledby="main-three-modal-title">
+    <div class="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto glass-gold rounded-3xl p-6 sm:p-8 border border-gold-400/60 shadow-2xl text-white">
+      <div class="flex items-start justify-between gap-4 border-b border-white/15 pb-4 mb-5">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-14 rounded-xl overflow-hidden border border-gold-400/50 bg-navy-950 shrink-0">
+            <img id="modal-crest-img" src="Gemini_Generated_Image_vkr2ayvkr2ayvkr2-removebg-preview.jpg" alt="JJSC FC Crest" class="w-full h-full object-contain" />
+          </div>
+          <div>
+            <span class="text-[11px] font-extrabold uppercase tracking-[0.2em] text-gold-400 block">JhonJhonia FC &bull; Gopalgonj</span>
+            <h3 id="main-three-modal-title" class="font-display font-bold text-2xl sm:text-3xl uppercase text-white">The Main Three Command</h3>
+          </div>
         </div>
-        <button type="button" id="jjsc-close-modal" aria-label="Close modal"
-                class="w-10 h-10 rounded-full bg-navy-950 border border-white/20 text-white hover:bg-gold-400 hover:text-navy-950 font-bold flex items-center justify-center transition-colors">
+        <button type="button" id="close-main-three-btn" aria-label="Close Main Three Modal" class="w-9 h-9 rounded-full bg-white/10 hover:bg-gold-400 hover:text-navy-950 font-bold text-lg flex items-center justify-center transition-all">
           ✕
         </button>
       </div>
 
-      <!-- Focus Filter Tabs -->
-      <div id="jjsc-modal-tabs" class="flex flex-wrap gap-2 mb-6">
-        <button type="button" data-focus="all" class="jjsc-modal-tab px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-gold-400 text-navy-950 transition-all">All Main Three</button>
-        <button type="button" data-focus="president" class="jjsc-modal-tab px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-navy-950/80 border border-gold-400/35 text-slate-200 hover:border-gold-400 transition-all">President &bull; Meherun Nesa</button>
-        <button type="button" data-focus="organiser" class="jjsc-modal-tab px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-navy-950/80 border border-gold-400/35 text-slate-200 hover:border-gold-400 transition-all">Organiser &bull; Aariz Hamza (#17)</button>
-        <button type="button" data-focus="funding" class="jjsc-modal-tab px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-navy-950/80 border border-gold-400/35 text-slate-200 hover:border-gold-400 transition-all">Funding Manager &bull; Nafiz (#7)</button>
+      <!-- Filter Tabs -->
+      <div class="flex flex-wrap gap-2 mb-5">
+        <button type="button" data-three-tab="all" class="three-tab-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase bg-gold-400 text-navy-950">All Main Three</button>
+        <button type="button" data-three-tab="president" class="three-tab-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase bg-navy-950 text-slate-200 border border-white/15">President • Meherun Nesa</button>
+        <button type="button" data-three-tab="organiser" class="three-tab-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase bg-navy-950 text-slate-200 border border-white/15">Organiser • Aariz Hamza (#17)</button>
+        <button type="button" data-three-tab="funding" class="three-tab-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase bg-navy-950 text-slate-200 border border-white/15">Funding Mgr • Nafiz (#7)</button>
       </div>
 
-      <!-- Three Leadership Cards -->
-      <div id="jjsc-three-cards-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+      <!-- Main Three Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div data-three-card="president" class="three-card rounded-2xl bg-navy-950/85 border border-gold-400/35 p-5 space-y-2 transition-all">
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-gold-400/15 text-gold-300 text-[10px] font-extrabold uppercase tracking-wider">01 • President</span>
+          <h4 class="font-display font-bold text-2xl uppercase text-white">Meherun Nesa</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">Supreme club leadership guiding JhonJhonia Football Club's direction, discipline, and official Gopalgonj matchday standards.</p>
+        </div>
 
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/15">
-        <span class="text-xs text-slate-300">
-          Click the 3D Crest anytime to summon The Main Three &bull; Official Line: <strong class="text-white">+880 1925-114987</strong>
-        </span>
-        <a href="https://wa.me/8801925114987?text=Assalamu%20Alaikum%20JJSC%20FC%20(Gopalgonj)!%20Reaching%20out%20via%20the%20Official%20Club%20Hub."
-           target="_blank" rel="noopener noreferrer"
-           class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-navy-950 font-display font-bold text-sm uppercase tracking-wider shadow hover:brightness-110 transition-all">
-          💬 WhatsApp JJSC FC
+        <div data-three-card="organiser" class="three-card rounded-2xl bg-navy-950/85 border border-blue-400/35 p-5 space-y-2 transition-all">
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-blue-400/15 text-blue-300 text-[10px] font-extrabold uppercase tracking-wider">#17 • Organiser &amp; Captain</span>
+          <h4 class="font-display font-bold text-2xl uppercase text-white">Aariz Hamza</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">Drives fixture organization, rival match challenges, squad unity, and on-pitch captaincy wearing #17.</p>
+        </div>
+
+        <div data-three-card="funding" class="three-card rounded-2xl bg-navy-950/85 border border-emerald-400/35 p-5 space-y-2 transition-all">
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-400/15 text-emerald-300 text-[10px] font-extrabold uppercase tracking-wider">#7 • Funding Manager</span>
+          <h4 class="font-display font-bold text-2xl uppercase text-white">Nafiz</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">Manages club funding, pitch/turf bookings, kit procurement, and matchday logistics from #7.</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-white/15">
+        <span class="text-xs text-slate-300">Official Match Line: <strong class="text-gold-300">+880 1925-114987</strong></span>
+        <a href="https://wa.me/8801925114987?text=Assalamu%20Alaikum%20JJSC%20FC%20(Gopalgonj)!" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-navy-950 font-display font-bold text-xs uppercase tracking-wider transition-all">
+          💬 Message on WhatsApp
         </a>
       </div>
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- TOAST NOTIFICATION                                                    -->
-  <!-- ===================================================================== -->
-  <div id="jjsc-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-24 opacity-0 z-50 transition-all duration-300 pointer-events-none">
-    <div class="px-5 py-3 rounded-full bg-navy-950 border border-gold-400 text-gold-300 text-xs sm:text-sm font-bold shadow-2xl">
-      <span id="jjsc-toast-text">Ready</span>
-    </div>
-  </div>
+  <!-- Toast Notification -->
+  <div id="jjsc-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[99999] px-5 py-2.5 rounded-full bg-navy-950 text-gold-300 border border-gold-400 text-xs font-extrabold tracking-wide shadow-2xl opacity-0 pointer-events-none transition-all duration-300"></div>
 
   <!-- ===================================================================== -->
-  <!-- COMPLETE INTERACTIVE ENGINE                                           -->
+  <!-- COMPLETE APPLICATION SCRIPT                                           -->
   <!-- ===================================================================== -->
   <script>
-    (function () {
-      'use strict';
+    const LOGO_CANDIDATES = [
+      'Gemini_Generated_Image_vkr2ayvkr2ayvkr2-removebg-preview.jpg',
+      'logo.jpg',
+      'logo.png',
+      'crest.jpg',
+      'crest.png'
+    ];
 
-      // 1. COMPLETE 12-PLAYER JJSC FC ROSTER
-      const DEFAULT_SQUAD = [
-        { id: 1, name: 'Aariz', number: '17', category: 'Leadership', role: 'Captain & Organiser (CM)', isCaptain: true, badge: 'CAPTAIN • ORGANISER' },
-        { id: 2, name: 'Arafat', number: '9', category: 'Attack', role: 'Center Forward (ST)', isCaptain: false, badge: 'STRIKER' },
-        { id: 3, name: 'Sana', number: '11', category: 'Attack', role: 'Left Winger (LW)', isCaptain: false, badge: 'WINGER' },
-        { id: 4, name: 'Anik', number: '8', category: 'Midfield', role: 'Box-to-Box Midfielder (CM)', isCaptain: false, badge: 'MIDFIELDER' },
-        { id: 5, name: 'Bayjid', number: '10', category: 'Midfield', role: 'Attacking Playmaker (CAM)', isCaptain: false, badge: 'PLAYMAKER' },
-        { id: 6, name: 'Nafiz', number: '7', category: 'Leadership', role: 'Funding Manager & RW', isCaptain: false, badge: 'FUNDING MANAGER' },
-        { id: 7, name: 'Tamim', number: '14', category: 'Midfield', role: 'Central Midfielder (CM)', isCaptain: false, badge: 'MIDFIELDER' },
-        { id: 8, name: 'Hamza', number: '47', category: 'Leadership', role: 'Club Organiser & Fullback', isCaptain: false, badge: 'ORGANISER' },
-        { id: 9, name: 'Fardin', number: '4', category: 'Defense', role: 'Center Back (CB)', isCaptain: false, badge: 'DEFENDER' },
-        { id: 10, name: 'Azgar', number: '5', category: 'Defense', role: 'Center Back (CB)', isCaptain: false, badge: 'DEFENDER' },
-        { id: 11, name: 'Mujammel', number: '1', category: 'Defense', role: 'Goalkeeper (GK)', isCaptain: false, badge: 'GOALKEEPER' },
-        { id: 12, name: 'Panta', number: '23', category: 'Attack', role: 'Utility Forward (CF)', isCaptain: false, badge: 'FORWARD' }
-      ];
+    const FALLBACK_CREST_SVG_HTML = `
+      <svg viewBox="0 0 240 280" class="w-full h-full" role="img" aria-label="JhonJhonia FC Crest">
+        <use href="#jjsc-crest-symbol"></use>
+      </svg>
+    `;
 
-      const MAIN_THREE = [
-        {
-          id: 'president',
-          badge: '01 • SUPREME LEADERSHIP',
-          title: 'PRESIDENT',
-          name: 'Meherun Nesa',
-          bio: 'Sets the standard, vision, and authority behind JhonJhonia Football Club in Gopalgonj—uniting players, match operations, and club pride under one shield.',
-          highlights: [
-            'Overall Club Direction & Policy',
-            'Official Match & Tournament Approval',
-            'Representing JJSC FC Across Gopalgonj'
-          ]
-        },
-        {
-          id: 'organiser',
-          badge: '#17 • PITCH & MATCH COMMAND',
-          title: 'ORGANISER & CAPTAIN',
-          name: 'Aariz Hamza',
-          bio: 'Drives match scheduling, rival turf challenges, squad discipline, and on-pitch leadership wearing the #17 armband for JJSC FC.',
-          highlights: [
-            'Fixture Coordination & Rival Challenges',
-            'On-Pitch Captaincy & Tactical Drive (#17)',
-            'Squad Lineups & Matchday Readiness'
-          ]
-        },
-        {
-          id: 'funding',
-          badge: '#7 • RESOURCES & KIT OPS',
-          title: 'FUNDING MANAGER',
-          name: 'Nafiz',
-          bio: 'Manages club budgets, turf bookings, matchday logistics, and custom kit/equipment funding so JJSC FC steps onto the pitch fully backed.',
-          highlights: [
-            'Turf & Tournament Budget Management',
-            'Kit, Gear & Matchday Resource Allocation',
-            'Club Sustainability & Operations (#7)'
-          ]
+    function applyCrestFallbackToImg(imgEl) {
+      if (!imgEl || imgEl.dataset.crestBound === '1') return;
+      imgEl.dataset.crestBound = '1';
+      let idx = 0;
+
+      function tryNext() {
+        if (idx < LOGO_CANDIDATES.length) {
+          imgEl.src = LOGO_CANDIDATES[idx++];
+        } else {
+          imgEl.removeEventListener('error', tryNext);
+          const wrapper = document.createElement('div');
+          wrapper.className = 'w-full h-full flex items-center justify-center';
+          wrapper.innerHTML = FALLBACK_CREST_SVG_HTML;
+          imgEl.replaceWith(wrapper);
         }
-      ];
-
-      let squadData = JSON.parse(localStorage.getItem('jjsc_squad_v3') || 'null') || JSON.parse(JSON.stringify(DEFAULT_SQUAD));
-      let activeRoleFilter = 'all';
-      let currentKitView = 'front';
-
-      function notify(msg) {
-        const el = document.getElementById('jjsc-toast');
-        document.getElementById('jjsc-toast-text').textContent = msg;
-        el.classList.remove('translate-y-24', 'opacity-0');
-        clearTimeout(notify._timer);
-        notify._timer = setTimeout(() => el.classList.add('translate-y-24', 'opacity-0'), 2800);
       }
 
-      // UTF-8 Safe Base64 Helpers
-      function encodeBase64Utf8(str) {
-        const bytes = new TextEncoder().encode(str);
-        let binary = '';
-        bytes.forEach(b => { binary += String.fromCharCode(b); });
-        return btoa(binary);
+      imgEl.addEventListener('error', tryNext);
+      if (imgEl.complete && imgEl.naturalWidth === 0) {
+        tryNext();
       }
-      function decodeBase64Utf8(b64) {
-        const binary = atob(b64);
-        const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-        return new TextDecoder().decode(bytes);
-      }
+    }
 
-      // 2. MAIN THREE MODAL CONTROLLER
-      function renderMainThreeModal(focusId = 'all') {
-        const grid = document.getElementById('jjsc-three-cards-grid');
-        grid.innerHTML = MAIN_THREE.map(p => {
-          const isFocus = focusId !== 'all' && p.id === focusId;
-          return `
-            <div class="rounded-2xl p-5 bg-navy-950/85 border transition-all ${
-              isFocus ? 'border-gold-400 ring-2 ring-gold-400/40 -translate-y-1' : 'border-gold-400/25'
-            }">
-              <span class="inline-block px-2.5 py-1 rounded-full bg-gold-400/15 text-gold-300 text-[10px] font-extrabold uppercase tracking-wider mb-2">${p.badge}</span>
-              <div class="text-[11px] font-bold uppercase tracking-widest text-blue-300">${p.title}</div>
-              <div class="font-display font-bold text-2xl text-white uppercase mt-0.5 mb-2">${p.name}</div>
-              <p class="text-xs text-slate-300 leading-relaxed mb-3">${p.bio}</p>
-              <ul class="space-y-1.5 text-xs text-slate-200 list-disc pl-4">
-                ${p.highlights.map(h => `<li>${h}</li>`).join('')}
-              </ul>
-            </div>
-          `;
-        }).join('');
+    document.querySelectorAll('img').forEach(applyCrestFallbackToImg);
 
-        document.querySelectorAll('.jjsc-modal-tab').forEach(tab => {
-          const active = tab.dataset.focus === focusId;
-          tab.className = active
-            ? 'jjsc-modal-tab px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-gold-400 text-navy-950 transition-all'
-            : 'jjsc-modal-tab px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-navy-950/80 border border-gold-400/35 text-slate-200 hover:border-gold-400 transition-all';
-        });
-      }
+    function showToast(msg) {
+      const toast = document.getElementById('jjsc-toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2800);
+    }
 
-      window.openMainThree = function (focusId = 'all') {
-        renderMainThreeModal(focusId);
-        const modal = document.getElementById('jjsc-main-three-modal');
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-      };
+    // Main Three Modal Controller
+    function openMainThree(focusRole = 'all') {
+      const modal = document.getElementById('jjsc-main-three-modal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
 
-      function closeMainThree() {
-        const modal = document.getElementById('jjsc-main-three-modal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-      }
+      const tabs = modal.querySelectorAll('.three-tab-btn');
+      const cards = modal.querySelectorAll('.three-card');
 
-      document.getElementById('jjsc-close-modal').addEventListener('click', closeMainThree);
-      document.getElementById('jjsc-main-three-modal').addEventListener('click', e => {
-        if (e.target.id === 'jjsc-main-three-modal') closeMainThree();
-      });
-      document.querySelectorAll('.jjsc-modal-tab').forEach(tab => {
-        tab.addEventListener('click', () => renderMainThreeModal(tab.dataset.focus));
-      });
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeMainThree();
+      tabs.forEach(t => {
+        const active = t.dataset.threeTab === focusRole;
+        t.className = active
+          ? 'three-tab-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase bg-gold-400 text-navy-950'
+          : 'three-tab-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase bg-navy-950 text-slate-200 border border-white/15';
       });
 
-      // 3. 3D CREST SANCTUM PHYSICS & CLICK-TO-POP
-      function init3DCrestSanctum() {
-        const stage = document.getElementById('jjsc-3d-stage');
-        const card = document.getElementById('jjsc-3d-card');
-        const glare = document.getElementById('jjsc-3d-glare');
+      cards.forEach(c => {
+        const isMatch = focusRole === 'all' || c.dataset.threeCard === focusRole;
+        c.style.opacity = isMatch ? '1' : '0.45';
+        c.style.transform = (focusRole !== 'all' && isMatch) ? 'scale(1.03)' : 'scale(1)';
+        c.style.boxShadow = (focusRole !== 'all' && isMatch) ? '0 0 0 2px #facc15' : 'none';
+      });
+    }
 
-        let idleSpin = true;
-        let angle = 0;
-        let pointerActive = false;
-        let curRx = 0, curRy = 0, tarRx = 0, tarRy = 0;
+    function closeMainThree() {
+      const modal = document.getElementById('jjsc-main-three-modal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
 
-        stage.addEventListener('pointermove', e => {
-          pointerActive = true;
-          idleSpin = false;
-          const rect = card.getBoundingClientRect();
-          const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-          const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-          tarRy = nx * 24;
-          tarRx = -ny * 22;
+    document.getElementById('close-main-three-btn')?.addEventListener('click', closeMainThree);
+    document.getElementById('jjsc-main-three-modal')?.addEventListener('click', e => {
+      if (e.target.id === 'jjsc-main-three-modal') closeMainThree();
+    });
+    document.querySelectorAll('.three-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => openMainThree(btn.dataset.threeTab));
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeMainThree();
+    });
 
+    // Squad Data (12 Players)
+    const SQUAD = [
+      { id: 1, name: 'Aariz', number: '17', role: 'FWD', title: 'Captain • Forward' },
+      { id: 2, name: 'Bayjid', number: '10', role: 'MID', title: 'Playmaker • Midfielder' },
+      { id: 3, name: 'Nafiz', number: '7', role: 'FWD', title: 'Funding Mgr • Winger' },
+      { id: 4, name: 'Hamza', number: '47', role: 'MID', title: 'Organiser • Midfielder' },
+      { id: 5, name: 'Rafi', number: '4', role: 'DEF', title: 'Center Back' },
+      { id: 6, name: 'Tanvir', number: '5', role: 'DEF', title: 'Center Back' },
+      { id: 7, name: 'Siam', number: '2', role: 'DEF', title: 'Right Back' },
+      { id: 8, name: 'Nabil', number: '3', role: 'DEF', title: 'Left Back' },
+      { id: 9, name: 'Fahim', number: '8', role: 'MID', title: 'Central Midfielder' },
+      { id: 10, name: 'Tarek', number: '11', role: 'FWD', title: 'Striker' },
+      { id: 11, name: 'Mahin', number: '14', role: 'MID', title: 'Attacking Midfielder' },
+      { id: 12, name: 'Ayan', number: '1', role: 'GK', title: 'Goalkeeper' }
+    ];
+
+    const FORMATIONS = {
+      '4-3-3': [
+        { playerId: 12, x: 50, y: 88 },
+        { playerId: 7,  x: 82, y: 71 },
+        { playerId: 5,  x: 62, y: 74 },
+        { playerId: 6,  x: 38, y: 74 },
+        { playerId: 8,  x: 18, y: 71 },
+        { playerId: 2,  x: 50, y: 52 },
+        { playerId: 4,  x: 72, y: 46 },
+        { playerId: 9,  x: 28, y: 46 },
+        { playerId: 3,  x: 80, y: 24 },
+        { playerId: 1,  x: 50, y: 18 },
+        { playerId: 10, x: 20, y: 24 }
+      ],
+      '4-4-2': [
+        { playerId: 12, x: 50, y: 88 },
+        { playerId: 7,  x: 82, y: 72 },
+        { playerId: 5,  x: 62, y: 75 },
+        { playerId: 6,  x: 38, y: 75 },
+        { playerId: 8,  x: 18, y: 72 },
+        { playerId: 3,  x: 82, y: 48 },
+        { playerId: 2,  x: 60, y: 50 },
+        { playerId: 4,  x: 40, y: 50 },
+        { playerId: 11, x: 18, y: 48 },
+        { playerId: 1,  x: 60, y: 22 },
+        { playerId: 10, x: 40, y: 22 }
+      ],
+      '3-5-2': [
+        { playerId: 12, x: 50, y: 88 },
+        { playerId: 5,  x: 70, y: 74 },
+        { playerId: 6,  x: 50, y: 76 },
+        { playerId: 8,  x: 30, y: 74 },
+        { playerId: 7,  x: 86, y: 48 },
+        { playerId: 4,  x: 66, y: 52 },
+        { playerId: 2,  x: 50, y: 44 },
+        { playerId: 9,  x: 34, y: 52 },
+        { playerId: 11, x: 14, y: 48 },
+        { playerId: 1,  x: 60, y: 22 },
+        { playerId: 10, x: 40, y: 22 }
+      ]
+    };
+
+    let activeFormation = '4-3-3';
+    let pitchPositions = FORMATIONS['4-3-3'].map(p => ({ ...p }));
+    let selectedPlayerId = 1;
+    let activeRoleFilter = 'ALL';
+    let currentKitView = 'front';
+    let kitFlipped = false;
+    let pitch3DTilt = true;
+
+    // 3D Crest Sanctum Tilt & Click-to-Pop Main Three
+    (function init3DCrest() {
+      const stage = document.getElementById('jjsc-3d-stage');
+      const card = document.getElementById('jjsc-3d-card');
+      const glare = document.getElementById('jjsc-3d-glare');
+      const spinBtn = document.getElementById('jjsc-spin-crest-btn');
+      if (!stage || !card) return;
+
+      let rx = 0, ry = 0, trx = 0, tryY = 0;
+      let pointerInside = false;
+      let autoPhase = 0;
+      let downPos = { x: 0, y: 0 };
+
+      stage.addEventListener('pointerenter', () => { pointerInside = true; });
+      stage.addEventListener('pointermove', e => {
+        pointerInside = true;
+        const rect = card.getBoundingClientRect();
+        const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        tryY = nx * 24;
+        trx = -ny * 20;
+        if (glare) {
           const gx = ((e.clientX - rect.left) / rect.width) * 100;
           const gy = ((e.clientY - rect.top) / rect.height) * 100;
-          glare.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.38), rgba(250,204,21,0.12) 45%, transparent 72%)`;
-        });
-
-        stage.addEventListener('pointerleave', () => {
-          pointerActive = false;
-          tarRx = 0;
-          tarRy = 0;
-          setTimeout(() => { if (!pointerActive) idleSpin = true; }, 900);
-        });
-
-        let downPos = { x: 0, y: 0 };
-        card.addEventListener('pointerdown', e => { downPos = { x: e.clientX, y: e.clientY }; });
-        card.addEventListener('click', e => {
-          if (Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y) < 10) {
-            window.openMainThree('all');
-          }
-        });
-
-        document.getElementById('jjsc-spin-crest-btn').addEventListener('click', () => {
-          idleSpin = false;
-          tarRy += 360;
-          notify('3D Crest 360° Showcase Spin!');
-          setTimeout(() => { if (!pointerActive) idleSpin = true; }, 1400);
-        });
-
-        function animateCrest() {
-          if (!pointerActive && idleSpin) {
-            angle += 0.02;
-            tarRy = Math.sin(angle) * 14;
-            tarRx = Math.cos(angle * 0.7) * 7;
-          }
-          curRx += (tarRx - curRx) * 0.14;
-          curRy += (tarRy - curRy) * 0.14;
-          card.style.transform = `rotateX(${curRx.toFixed(2)}deg) rotateY(${curRy.toFixed(2)}deg)`;
-          requestAnimationFrame(animateCrest);
+          glare.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.42), rgba(250,204,21,0.12) 45%, transparent 72%)`;
         }
-        requestAnimationFrame(animateCrest);
+      });
+      stage.addEventListener('pointerleave', () => {
+        pointerInside = false;
+        trx = 0;
+        tryY = 0;
+      });
+
+      card.addEventListener('pointerdown', e => { downPos = { x: e.clientX, y: e.clientY }; });
+      card.addEventListener('click', e => {
+        if (Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y) < 10) {
+          openMainThree('all');
+        }
+      });
+
+      spinBtn?.addEventListener('click', () => {
+        tryY += 360;
+        showToast('3D Crest showcase spin!');
+      });
+
+      function tick() {
+        if (!pointerInside) {
+          autoPhase += 0.018;
+          tryY = Math.sin(autoPhase) * 14;
+          trx = Math.cos(autoPhase * 0.75) * 7;
+        }
+        rx += (trx - rx) * 0.14;
+        ry += (tryY - ry) * 0.14;
+        card.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })();
+
+    // Jersey Studio
+    function renderJerseySVG() {
+      const container = document.getElementById('kit-svg-container');
+      const nameVal = (document.getElementById('kit-custom-name')?.value || 'AARIZ').toUpperCase();
+      const numVal = document.getElementById('kit-custom-number')?.value || '17';
+      if (!container) return;
+
+      if (currentKitView === 'sleeve') {
+        container.innerHTML = `
+          <svg viewBox="0 0 360 360" class="w-full h-full jersey-shadow">
+            <rect x="40" y="40" width="280" height="280" rx="28" fill="#162252" stroke="#facc15" stroke-width="4" />
+            <text x="180" y="130" text-anchor="middle" fill="#facc15" font-family="Oswald, sans-serif" font-size="24" font-weight="700">2026 MATCH SLEEVE</text>
+            <rect x="90" y="155" width="180" height="72" rx="12" fill="#0b1128" stroke="#ffffff" stroke-width="2.5" />
+            <text x="180" y="203" text-anchor="middle" fill="#ffffff" font-family="Oswald, sans-serif" font-size="40" font-weight="700" letter-spacing="6">ATN</text>
+            <text x="180" y="268" text-anchor="middle" fill="#93c5fd" font-family="Plus Jakarta Sans, sans-serif" font-size="14" font-weight="700">JJSC FC • GOPALGONJ</text>
+          </svg>`;
+        return;
       }
 
-      // 4. 2026 OFFICIAL JERSEY STUDIO (EXACT WAVE CAMO + SPONSORS)
-      function generateJerseySVG(view, playerName, playerNumber) {
-        const num = (playerNumber || '17').trim();
-        const name = (playerName || 'AARIZ').trim().toUpperCase();
-
-        const defs = `
-          <defs>
-            <pattern id="jjsc-kit-camo" width="90" height="90" patternUnits="userSpaceOnUse">
-              <rect width="90" height="90" fill="#162252"/>
-              <path d="M4 12 C18 9, 28 15, 42 11 M48 14 C62 10, 74 16, 86 12
-                       M2 30 C16 34, 30 26, 44 30 M50 32 C64 27, 76 34, 88 30
-                       M6 48 C20 44, 34 52, 48 47 M54 50 C68 46, 78 52, 88 49
-                       M4 66 C18 70, 32 62, 46 66 M52 68 C66 64, 78 70, 88 67
-                       M6 82 C22 79, 36 85, 50 81 M56 83 C70 80, 80 85, 88 82
-                       M16 4 V24 M36 14 V38 M64 6 V28 M78 18 V42
-                       M22 36 V60 M44 46 V72 M70 38 V64 M14 66 V88 M58 66 V88"
-                    stroke="#284596" stroke-width="5.2" stroke-linecap="round" fill="none" opacity="0.9"/>
-            </pattern>
-            <linearGradient id="kitContour" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#05091a" stop-opacity="0.48"/>
-              <stop offset="22%" stop-color="#ffffff" stop-opacity="0.06"/>
-              <stop offset="50%" stop-color="#ffffff" stop-opacity="0.09"/>
-              <stop offset="78%" stop-color="#ffffff" stop-opacity="0.05"/>
-              <stop offset="100%" stop-color="#05091a" stop-opacity="0.5"/>
-            </linearGradient>
-          </defs>
-        `;
-
-        if (view === 'front') {
-          return `
-            <svg viewBox="0 0 380 430" class="w-full h-full max-h-[390px] jersey-shadow">
-              ${defs}
-              <path d="M130 28 L72 54 L22 142 L68 168 L94 120 L94 398 Q190 416 286 398 L286 120 L312 168 L358 142 L308 54 L250 28 Q190 52 130 28 Z"
-                    fill="url(#jjsc-kit-camo)" stroke="#0e173d" stroke-width="2"/>
-              <path d="M130 28 L72 54 L22 142 L68 168 L94 120 L94 398 Q190 416 286 398 L286 120 L312 168 L358 142 L308 54 L250 28 Q190 52 130 28 Z"
-                    fill="url(#kitContour)"/>
-              <!-- White Crew Collar -->
-              <path d="M128 28 Q190 62 252 28 L242 20 Q190 46 138 20 Z" fill="#f4f6fa"/>
-              <path d="M138 20 Q190 32 242 20 Q190 46 138 20 Z" fill="#cbd5e1"/>
-              <!-- Spized Neck Mark -->
-              <g transform="translate(190, 66)">
-                <rect x="-24" y="-7" width="8" height="8" rx="1.5" fill="#f4f6fa" opacity="0.9"/>
-                <text x="5" y="0" text-anchor="middle" fill="#f4f6fa" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-style="italic" font-size="9.5">spized</text>
-              </g>
-              <!-- Chest Number -->
-              <text x="134" y="144" text-anchor="middle" fill="#ffffff" font-family="'Teko', sans-serif" font-weight="700" font-size="48">${num}</text>
-              <!-- Embroidered Crest -->
-              <svg x="216" y="96" width="48" height="56"><use href="#jjsc-crest-symbol"></use></svg>
-              <!-- Yellow JJSC FC Chest Sponsor -->
-              <text x="190" y="218" text-anchor="middle" fill="#facc15" font-family="'Teko', sans-serif" font-weight="700" font-size="44" letter-spacing="4" stroke="#162252" stroke-width="0.7">JJSC FC</text>
-              <!-- Sports Bangla Hem Tag -->
-              <g transform="translate(208, 358)">
-                <rect x="0" y="0" width="66" height="22" rx="2" fill="#ffffff"/>
-                <polygon points="4,4 13,4 9,18 4,18" fill="#ef4444"/>
-                <polygon points="11,4 19,4 15,18 7,18" fill="#06b6d4"/>
-                <polygon points="17,4 23,4 19,18 13,18" fill="#f59e0b"/>
-                <text x="44" y="10" text-anchor="middle" fill="#0f172a" font-family="'Oswald', sans-serif" font-weight="700" font-size="7.2">SPORTS</text>
-                <text x="44" y="18" text-anchor="middle" fill="#0f172a" font-family="'Oswald', sans-serif" font-weight="700" font-size="7.2">BANGLA</text>
-              </g>
-            </svg>
-          `;
-        }
-
-        if (view === 'back') {
-          return `
-            <svg viewBox="0 0 380 430" class="w-full h-full max-h-[390px] jersey-shadow">
-              ${defs}
-              <path d="M130 26 L72 54 L22 142 L68 168 L94 120 L94 398 Q190 416 286 398 L286 120 L312 168 L358 142 L308 54 L250 26 Q190 38 130 26 Z"
-                    fill="url(#jjsc-kit-camo)" stroke="#0e173d" stroke-width="2"/>
-              <path d="M130 26 L72 54 L22 142 L68 168 L94 120 L94 398 Q190 416 286 398 L286 120 L312 168 L358 142 L308 54 L250 26 Q190 38 130 26 Z"
-                    fill="url(#kitContour)"/>
-              <path d="M128 26 Q190 40 252 26 L244 19 Q190 31 136 19 Z" fill="#f4f6fa"/>
-              <!-- BD Map Emblem -->
-              <g transform="translate(190, 56)">
-                <circle cx="0" cy="0" r="13" fill="#006a4e" stroke="#facc15" stroke-width="1.8"/>
-                <circle cx="0" cy="0" r="8.5" fill="#f42a41"/>
-                <path d="M-2 -4 L2 -3 L3 1 L1 5 L-2 3 L-3 -1 Z" fill="#fef08a"/>
-              </g>
-              <text x="190" y="112" text-anchor="middle" fill="#ffffff" font-family="'Oswald', sans-serif" font-weight="700" font-size="30" letter-spacing="2.8">${name}</text>
-              <text x="190" y="252" text-anchor="middle" fill="#ffffff" font-family="'Teko', sans-serif" font-weight="700" font-size="162" letter-spacing="2">${num}</text>
-              <!-- SSLCOMMERZ Back Sponsor -->
-              <g transform="translate(136, 342)">
-                <rect x="0" y="0" width="108" height="24" rx="2.5" fill="#ffffff"/>
-                <rect x="3" y="3" width="102" height="18" rx="1.5" fill="#162252"/>
-                <text x="54" y="15.5" text-anchor="middle" fill="#ffffff" font-family="'Oswald', sans-serif" font-weight="700" font-size="11.5" letter-spacing="1.4">SSLCOMMERZ</text>
-              </g>
-            </svg>
-          `;
-        }
-
-        // ATN Sleeve View
-        return `
-          <svg viewBox="0 0 380 430" class="w-full h-full max-h-[390px] jersey-shadow">
-            ${defs}
-            <path d="M154 26 C204 30, 238 56, 244 110 L246 396 Q190 414 140 396 L144 115 C144 68, 146 40, 154 26 Z"
-                  fill="url(#jjsc-kit-camo)" stroke="#0e173d" stroke-width="2"/>
-            <path d="M152 26 C180 24, 208 30, 224 42 L215 49 C198 38, 174 34, 150 36 Z" fill="#f4f6fa"/>
-            <path d="M174 58 C206 60, 232 88, 236 142 L228 242 L162 235 L158 132 C158 96, 164 72, 174 58 Z"
-                  fill="url(#jjsc-kit-camo)" stroke="#0b1128" stroke-width="2.2"/>
-            <text x="196" y="174" text-anchor="middle" fill="#ffffff" font-family="'Oswald', sans-serif" font-weight="700" font-size="30" letter-spacing="2.5" transform="rotate(4 196 174)">ATN</text>
-          </svg>
-        `;
+      if (currentKitView === 'back') {
+        container.innerHTML = `
+          <svg viewBox="0 0 380 410" class="w-full h-full jersey-shadow">
+            <path d="M95 45 L145 25 Q190 52 235 25 L285 45 L350 110 L315 160 L275 130 L275 375 L105 375 L105 130 L65 160 L30 110 Z"
+                  fill="#162252" stroke="#284596" stroke-width="4" />
+            <path d="M145 25 Q190 54 235 25" fill="none" stroke="#ffffff" stroke-width="8" />
+            <text x="190" y="112" text-anchor="middle" fill="#ffffff" font-family="Oswald, sans-serif" font-size="28" font-weight="700" letter-spacing="3">${nameVal}</text>
+            <text x="190" y="215" text-anchor="middle" fill="#facc15" font-family="Teko, sans-serif" font-size="118" font-weight="700">${numVal}</text>
+            <text x="190" y="268" text-anchor="middle" fill="#e2e8f0" font-family="Oswald, sans-serif" font-size="18" font-weight="700" letter-spacing="2">SSLCOMMERZ</text>
+          </svg>`;
+        return;
       }
 
-      function initJerseyStudio() {
-        const select = document.getElementById('kit-player-select');
-        const nameInput = document.getElementById('kit-custom-name');
-        const numInput = document.getElementById('kit-custom-number');
-        const container = document.getElementById('kit-svg-container');
+      container.innerHTML = `
+        <svg viewBox="0 0 380 410" class="w-full h-full jersey-shadow">
+          <path d="M95 45 L145 25 Q190 52 235 25 L285 45 L350 110 L315 160 L275 130 L275 375 L105 375 L105 130 L65 160 L30 110 Z"
+                fill="#162252" stroke="#284596" stroke-width="4" />
+          <path d="M145 25 Q190 54 235 25" fill="none" stroke="#ffffff" stroke-width="8" />
+          <text x="190" y="64" text-anchor="middle" fill="#cbd5e1" font-family="Plus Jakarta Sans, sans-serif" font-style="italic" font-weight="800" font-size="12">spized</text>
+          <use href="#jjsc-crest-symbol" x="218" y="88" width="46" height="54" />
+          <text x="190" y="188" text-anchor="middle" fill="#facc15" font-family="Teko, sans-serif" font-size="52" font-weight="700" letter-spacing="4">JJSC FC</text>
+          <rect x="132" y="330" width="116" height="24" rx="4" fill="#ffffff" />
+          <text x="190" y="346" text-anchor="middle" fill="#0b1128" font-family="Oswald, sans-serif" font-size="11" font-weight="700" letter-spacing="1">SPORTS BANGLA</text>
+        </svg>`;
+    }
 
-        function populateDropdown(selectedId = 1) {
-          select.innerHTML = squadData.map(p => `
-            <option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>
-              #${p.number} ${p.name} — ${p.role}
-            </option>
-          `).join('');
-        }
+    function initJerseyStudio() {
+      const select = document.getElementById('kit-player-select');
+      const nameInput = document.getElementById('kit-custom-name');
+      const numInput = document.getElementById('kit-custom-number');
+      const saveBtn = document.getElementById('kit-save-squad-btn');
+      const resetBtn = document.getElementById('kit-reset-btn');
+      const banner = document.getElementById('kit-sync-banner');
+      const stage = document.getElementById('kit-3d-stage');
 
-        function renderKit() {
-          container.innerHTML = generateJerseySVG(currentKitView, nameInput.value, numInput.value);
-          localStorage.setItem('jjsc_kit_custom_v3', JSON.stringify({
-            playerId: select.value,
-            name: nameInput.value,
-            number: numInput.value
-          }));
-        }
+      if (select) {
+        select.innerHTML = SQUAD.map(p => `<option value="${p.id}">#${p.number} — ${p.name} (${p.role})</option>`).join('');
+        select.addEventListener('change', () => {
+          const player = SQUAD.find(p => String(p.id) === String(select.value));
+          if (player) {
+            selectedPlayerId = player.id;
+            if (nameInput) nameInput.value = player.name.toUpperCase();
+            if (numInput) numInput.value = player.number;
+            renderJerseySVG();
+            updateInspector();
+          }
+        });
+      }
 
-        function setKitView(view) {
-          currentKitView = view;
-          document.querySelectorAll('.kit-view-btn').forEach(btn => {
-            btn.className = btn.dataset.kitView === view
+      nameInput?.addEventListener('input', () => {
+        localStorage.setItem('jjsc_kit_name', nameInput.value);
+        renderJerseySVG();
+      });
+      numInput?.addEventListener('input', () => {
+        localStorage.setItem('jjsc_kit_num', numInput.value);
+        renderJerseySVG();
+      });
+
+      const savedName = localStorage.getItem('jjsc_kit_name');
+      const savedNum = localStorage.getItem('jjsc_kit_num');
+      if (savedName !== null && nameInput) nameInput.value = savedName;
+      if (savedNum !== null && numInput) numInput.value = savedNum;
+
+      document.querySelectorAll('.kit-view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentKitView = btn.dataset.kitView;
+          document.querySelectorAll('.kit-view-btn').forEach(b => {
+            b.className = b === btn
               ? 'kit-view-btn px-4 sm:px-5 py-2 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider bg-gold-400 text-navy-950 transition-all'
               : 'kit-view-btn px-4 sm:px-5 py-2 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-all';
           });
-          renderKit();
-        }
+          renderJerseySVG();
+        });
+      });
 
-        window.loadPlayerIntoKit = function (playerId) {
-          const p = squadData.find(x => x.id === playerId);
-          if (!p) return;
-          select.value = p.id;
-          nameInput.value = p.name.toUpperCase();
-          numInput.value = p.number;
-          setKitView('back');
-          document.getElementById('kit').scrollIntoView({ behavior: 'smooth' });
-          notify(`Loaded #${p.number} ${p.name} in Jersey Studio!`);
-        };
+      document.getElementById('kit-flip-btn')?.addEventListener('click', () => {
+        kitFlipped = !kitFlipped;
+        currentKitView = kitFlipped ? 'back' : 'front';
+        renderJerseySVG();
+      });
 
-        populateDropdown(1);
-
-        // Restore auto-saved kit fields if present
-        const savedKit = JSON.parse(localStorage.getItem('jjsc_kit_custom_v3') || 'null');
-        if (savedKit) {
-          select.value = savedKit.playerId || 1;
-          nameInput.value = savedKit.name || 'AARIZ';
-          numInput.value = savedKit.number || '17';
-        }
-
-        select.addEventListener('change', e => {
-          const p = squadData.find(x => x.id === Number(e.target.value));
-          if (p) {
-            nameInput.value = p.name.toUpperCase();
-            numInput.value = p.number;
-            setKitView('back');
+      saveBtn?.addEventListener('click', () => {
+        const p = SQUAD.find(item => item.id === selectedPlayerId);
+        if (p && nameInput && numInput) {
+          p.name = nameInput.value.trim() || p.name;
+          p.number = numInput.value.trim() || p.number;
+          renderPitchTokens();
+          renderSquad();
+          renderBench();
+          updateInspector();
+          if (banner) {
+            banner.textContent = `Synced #${p.number} ${p.name} to Squad & 3D Pitch!`;
+            banner.classList.remove('hidden');
           }
-        });
-
-        nameInput.addEventListener('input', renderKit);
-        numInput.addEventListener('input', renderKit);
-
-        document.querySelectorAll('.kit-view-btn').forEach(btn => {
-          btn.addEventListener('click', () => setKitView(btn.dataset.kitView));
-        });
-
-        document.getElementById('kit-flip-btn').addEventListener('click', () => {
-          setKitView(currentKitView === 'front' ? 'back' : 'front');
-        });
-
-        document.getElementById('kit-save-squad-btn').addEventListener('click', () => {
-          const p = squadData.find(x => x.id === Number(select.value));
-          if (p) {
-            const cleanName = nameInput.value.trim();
-            const cleanNum = numInput.value.trim();
-            if (cleanName) p.name = cleanName.charAt(0).toUpperCase() + cleanName.slice(1).toLowerCase();
-            if (cleanNum) p.number = cleanNum;
-            localStorage.setItem('jjsc_squad_v3', JSON.stringify(squadData));
-            populateDropdown(p.id);
-            renderSquad();
-            renderTacticsBoard();
-            notify(`Synced #${p.number} ${p.name} across Squad & 3D Pitch!`);
-          }
-        });
-
-        document.getElementById('kit-reset-btn').addEventListener('click', () => {
-          localStorage.removeItem('jjsc_kit_custom_v3');
-          select.value = 1;
-          nameInput.value = 'AARIZ';
-          numInput.value = '17';
-          setKitView('front');
-          notify('Jersey Studio reset to Captain Aariz (#17)');
-        });
-
-        // 3D Tilt on Kit Stage
-        const stage = document.getElementById('kit-3d-stage');
-        stage.addEventListener('mousemove', e => {
-          const rect = stage.getBoundingClientRect();
-          const x = (e.clientX - rect.left) / rect.width - 0.5;
-          const y = (e.clientY - rect.top) / rect.height - 0.5;
-          stage.style.transform = `rotateY(${x * 22}deg) rotateX(${-y * 22}deg)`;
-        });
-        stage.addEventListener('mouseleave', () => {
-          stage.style.transform = 'rotateY(0deg) rotateX(0deg)';
-        });
-
-        renderKit();
-      }
-
-      // 5. 3D MOVABLE TACTICAL FORMATION BOARD + POSTER EXPORT + SHAREABLE URL
-      const formationPresets = {
-        '6v6-diamond': [
-          { playerId: 11, x: 10, y: 50 }, // Mujammel (GK)
-          { playerId: 9, x: 30, y: 50 },  // Fardin (CB)
-          { playerId: 1, x: 52, y: 26 },  // Aariz (CM - Captain)
-          { playerId: 8, x: 52, y: 74 },  // Hamza (RB/MID)
-          { playerId: 5, x: 70, y: 50 },  // Bayjid (CAM)
-          { playerId: 2, x: 86, y: 50 }   // Arafat (ST)
-        ],
-        '6v6-attack': [
-          { playerId: 11, x: 10, y: 50 }, // Mujammel (GK)
-          { playerId: 10, x: 28, y: 50 }, // Azgar (CB)
-          { playerId: 1, x: 54, y: 50 },  // Aariz (CM)
-          { playerId: 3, x: 68, y: 20 },  // Sana (LW)
-          { playerId: 6, x: 68, y: 80 },  // Nafiz (RW)
-          { playerId: 2, x: 86, y: 50 }   // Arafat (ST)
-        ],
-        '7v7-turf': [
-          { playerId: 11, x: 10, y: 50 }, // Mujammel (GK)
-          { playerId: 9, x: 28, y: 32 },  // Fardin (CB)
-          { playerId: 8, x: 28, y: 68 },  // Hamza (RB)
-          { playerId: 1, x: 52, y: 50 },  // Aariz (CM)
-          { playerId: 3, x: 62, y: 20 },  // Sana (LW)
-          { playerId: 6, x: 62, y: 80 },  // Nafiz (RW)
-          { playerId: 2, x: 84, y: 50 }   // Arafat (ST)
-        ],
-        '11v11-full': [
-          { playerId: 11, x: 8, y: 50 },  // Mujammel (GK)
-          { playerId: 8, x: 25, y: 82 },  // Hamza
-          { playerId: 9, x: 23, y: 60 },  // Fardin
-          { playerId: 10, x: 23, y: 40 }, // Azgar
-          { playerId: 7, x: 25, y: 18 },  // Tamim
-          { playerId: 4, x: 45, y: 50 },  // Anik
-          { playerId: 1, x: 55, y: 30 },  // Aariz
-          { playerId: 5, x: 58, y: 70 },  // Bayjid
-          { playerId: 6, x: 78, y: 80 },  // Nafiz
-          { playerId: 3, x: 78, y: 20 },  // Sana
-          { playerId: 2, x: 86, y: 50 }   // Arafat
-        ]
-      };
-
-      let activePitchTokens = JSON.parse(JSON.stringify(formationPresets['6v6-diamond']));
-      let currentPitchTilt = 32;
-      let pitchLocked = false;
-
-      // Load shared URL lineup or saved localStorage lineup
-      const urlLineupParam = new URLSearchParams(window.location.search).get('lineup');
-      if (urlLineupParam) {
-        try {
-          const parsed = JSON.parse(decodeBase64Utf8(urlLineupParam));
-          if (Array.isArray(parsed) && parsed.length) {
-            activePitchTokens = parsed;
-            setTimeout(() => notify('Loaded shared JJSC FC tactical lineup!'), 500);
-          }
-        } catch (e) { /* fallback to default */ }
-      } else {
-        const savedTactics = JSON.parse(localStorage.getItem('jjsc_tactics_v3') || 'null');
-        if (Array.isArray(savedTactics) && savedTactics.length) {
-          activePitchTokens = savedTactics;
+          showToast(`Synced #${p.number} ${p.name}`);
         }
-      }
+      });
 
-      function persistTactics() {
-        localStorage.setItem('jjsc_tactics_v3', JSON.stringify(activePitchTokens));
-      }
+      resetBtn?.addEventListener('click', () => {
+        localStorage.removeItem('jjsc_kit_name');
+        localStorage.removeItem('jjsc_kit_num');
+        if (nameInput) nameInput.value = 'AARIZ';
+        if (numInput) numInput.value = '17';
+        renderJerseySVG();
+        showToast('Jersey customizer reset');
+      });
 
-      function renderTacticsBoard() {
-        const tokensLayer = document.getElementById('pitch-tokens-layer');
-        const benchList = document.getElementById('tactics-squad-list');
-        document.getElementById('on-pitch-counter').textContent = `${activePitchTokens.length} On Pitch`;
+      stage?.addEventListener('pointermove', e => {
+        const r = stage.getBoundingClientRect();
+        const nx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+        const ny = ((e.clientY - r.top) / r.height - 0.5) * 2;
+        stage.style.transform = `rotateX(${(-ny * 12).toFixed(1)}deg) rotateY(${(nx * 14).toFixed(1)}deg)`;
+      });
+      stage?.addEventListener('pointerleave', () => {
+        stage.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      });
 
-        tokensLayer.innerHTML = activePitchTokens.map(token => {
-          const p = squadData.find(s => s.id === token.playerId);
-          if (!p) return '';
-          return `
-            <div data-token-id="${p.id}"
-                 style="left: ${token.x}%; top: ${token.y}%; transform: translate(-50%, -50%) rotateX(${-currentPitchTilt * 0.65}deg);"
-                 class="pitch-token absolute cursor-grab flex flex-col items-center group z-20">
-              <div class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex flex-col items-center justify-center shadow-[0_10px_20px_rgba(0,0,0,0.85)] border-2 ${
-                p.isCaptain
-                  ? 'bg-gradient-to-br from-navy-800 to-navy-950 border-gold-400 ring-2 ring-gold-400/40'
-                  : 'bg-gradient-to-br from-navy-800 to-navy-950 border-white/85'
-              }">
-                <span class="font-jersey font-bold text-xl sm:text-2xl leading-none text-white">${p.number}</span>
-                <span class="text-[8px] font-extrabold uppercase tracking-tighter text-gold-400 leading-none">JJSC</span>
-                ${p.isCaptain ? '<span class="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-gold-400 text-navy-950 font-extrabold text-[9px] flex items-center justify-center shadow">C</span>' : ''}
-              </div>
-              <div class="mt-1 px-2 py-0.5 rounded-md bg-navy-950/95 border border-gold-400/45 text-[10px] sm:text-[11px] font-display font-bold uppercase tracking-wider text-white whitespace-nowrap shadow-lg">
-                ${p.name}
-              </div>
-            </div>
-          `;
-        }).join('');
+      renderJerseySVG();
+    }
 
-        // Wire Mouse & Touch Dragging
-        document.querySelectorAll('.pitch-token').forEach(el => {
-          let dragging = false;
-          const playerId = Number(el.dataset.tokenId);
+    // 3D Tactical Board & Pro Tools
+    function encodeUtf8Base64(str) {
+      const bytes = new TextEncoder().encode(str);
+      let bin = '';
+      bytes.forEach(b => { bin += String.fromCharCode(b); });
+      return btoa(bin);
+    }
 
-          const startDrag = () => {
-            if (pitchLocked) return;
-            dragging = true;
-            el.classList.add('dragging');
-          };
+    function decodeUtf8Base64(b64) {
+      const bin = atob(b64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return new TextDecoder().decode(bytes);
+    }
 
-          const moveDrag = (clientX, clientY) => {
-            if (!dragging || pitchLocked) return;
-            const rect = document.getElementById('pitch-3d-board').getBoundingClientRect();
-            const nx = Math.max(5, Math.min(95, ((clientX - rect.left) / rect.width) * 100));
-            const ny = Math.max(8, Math.min(92, ((clientY - rect.top) / rect.height) * 100));
-            const item = activePitchTokens.find(t => t.playerId === playerId);
-            if (item) {
-              item.x = Number(nx.toFixed(1));
-              item.y = Number(ny.toFixed(1));
-              el.style.left = `${item.x}%`;
-              el.style.top = `${item.y}%`;
-            }
-          };
+    function updateInspector() {
+      const player = SQUAD.find(p => p.id === selectedPlayerId) || SQUAD[0];
+      const pos = pitchPositions.find(p => p.playerId === player.id) || { x: 50, y: 50 };
+      const badge = document.getElementById('inspector-badge');
+      const nameEl = document.getElementById('inspector-name');
+      const roleEl = document.getElementById('inspector-role');
+      const coordsEl = document.getElementById('inspector-coords');
+      if (badge) badge.textContent = `#${player.number}`;
+      if (nameEl) nameEl.textContent = player.name;
+      if (roleEl) roleEl.textContent = player.title;
+      if (coordsEl) coordsEl.textContent = `Pitch Coordinates: X ${Math.round(pos.x)}% • Y ${Math.round(pos.y)}%`;
+    }
 
-          const endDrag = () => {
-            if (!dragging) return;
-            dragging = false;
-            el.classList.remove('dragging');
-            persistTactics();
-          };
+    function renderPitchTokens() {
+      const layer = document.getElementById('pitch-tokens-layer');
+      if (!layer) return;
+      layer.innerHTML = '';
 
-          el.addEventListener('mousedown', e => {
-            e.preventDefault();
-            startDrag();
-            const onMove = ev => moveDrag(ev.clientX, ev.clientY);
-            const onUp = () => {
-              endDrag();
-              window.removeEventListener('mousemove', onMove);
-              window.removeEventListener('mouseup', onUp);
-            };
-            window.addEventListener('mousemove', onMove);
-            window.addEventListener('mouseup', onUp);
-          });
-
-          el.addEventListener('touchstart', () => startDrag(), { passive: true });
-          el.addEventListener('touchmove', e => {
-            if (!dragging) return;
-            e.preventDefault();
-            moveDrag(e.touches[0].clientX, e.touches[0].clientY);
-          }, { passive: false });
-          el.addEventListener('touchend', endDrag);
-        });
-
-        // Render Bench Toggle List
-        benchList.innerHTML = squadData.map(p => {
-          const onPitch = activePitchTokens.some(t => t.playerId === p.id);
-          return `
-            <div class="flex items-center justify-between p-2.5 rounded-xl bg-navy-950/85 border ${onPitch ? 'border-emerald-500/40' : 'border-white/10'}">
-              <div class="flex items-center gap-2.5 min-w-0">
-                <span class="w-8 h-8 rounded-lg bg-navy-800 border border-gold-400/35 text-gold-400 font-display font-bold text-sm flex items-center justify-center flex-shrink-0">
-                  ${p.number}
-                </span>
-                <div class="truncate">
-                  <div class="font-display font-bold text-sm text-white uppercase truncate">
-                    ${p.name} ${p.isCaptain ? '<span class="text-gold-400 text-[10px]">(C)</span>' : ''}
-                  </div>
-                  <div class="text-[10px] text-slate-400 truncate">${p.role}</div>
-                </div>
-              </div>
-              <button type="button" onclick="togglePlayerOnPitch(${p.id})"
-                      class="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all flex-shrink-0 ${
-                        onPitch
-                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-red-500/20 hover:text-red-300'
-                          : 'bg-gold-400 text-navy-950 hover:bg-gold-300'
-                      }">
-                ${onPitch ? 'On Pitch' : '+ Add'}
-              </button>
-            </div>
-          `;
-        }).join('');
-      }
-
-      window.togglePlayerOnPitch = function (playerId) {
-        const idx = activePitchTokens.findIndex(t => t.playerId === playerId);
-        if (idx > -1) activePitchTokens.splice(idx, 1);
-        else activePitchTokens.push({ playerId, x: 50, y: 50 });
-        persistTactics();
-        renderTacticsBoard();
-      };
-
-      function initTacticsTools() {
-        const slider = document.getElementById('pitch-tilt-slider');
-        const valEl = document.getElementById('pitch-tilt-value');
-        const board = document.getElementById('pitch-3d-board');
-
-        slider.addEventListener('input', e => {
-          currentPitchTilt = Number(e.target.value);
-          valEl.textContent = `${currentPitchTilt}°`;
-          board.style.transform = `rotateX(${currentPitchTilt}deg)`;
-          renderTacticsBoard();
-        });
-
-        document.querySelectorAll('.formation-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const key = btn.dataset.formation;
-            activePitchTokens = JSON.parse(JSON.stringify(formationPresets[key]));
-            persistTactics();
-            document.querySelectorAll('.formation-btn').forEach(b => {
-              b.className = b.dataset.formation === key
-                ? 'formation-btn px-4 py-2.5 rounded-xl bg-gold-400 text-navy-950 font-display font-bold text-xs sm:text-sm uppercase tracking-wider shadow-lg'
-                : 'formation-btn px-4 py-2.5 rounded-xl bg-navy-850 border border-white/15 text-slate-200 hover:border-gold-400 font-display font-bold text-xs sm:text-sm uppercase tracking-wider';
-            });
-            renderTacticsBoard();
-          });
-        });
-
-        // Pitch Mobile Scroll Lock
-        const lockBtn = document.getElementById('jjsc-toggle-lock');
-        const wrapper = document.getElementById('tactics-board-wrapper');
-        lockBtn.addEventListener('click', () => {
-          pitchLocked = !pitchLocked;
-          wrapper.classList.toggle('pitch-locked', pitchLocked);
-          lockBtn.textContent = pitchLocked ? '🔒 Pitch Locked (Scroll Safe)' : '🔓 Pitch Unlocked';
-          notify(pitchLocked ? 'Pitch locked for smooth mobile scrolling' : 'Pitch unlocked — drag players freely');
-        });
-
-        // Shareable UTF-8 Safe Lineup Link
-        document.getElementById('jjsc-share-lineup').addEventListener('click', () => {
-          const encoded = encodeURIComponent(encodeBase64Utf8(JSON.stringify(activePitchTokens)));
-          const shareUrl = `${window.location.origin}${window.location.pathname}?lineup=${encoded}#tactics`;
-          const tmp = document.createElement('input');
-          tmp.value = shareUrl;
-          document.body.appendChild(tmp);
-          tmp.select();
-          document.execCommand('copy');
-          document.body.removeChild(tmp);
-          notify('Shareable lineup link copied! Paste in your WhatsApp group');
-        });
-
-        // Reset Saved State
-        document.getElementById('jjsc-reset-state').addEventListener('click', () => {
-          Object.keys(localStorage).filter(k => k.startsWith('jjsc_')).forEach(k => localStorage.removeItem(k));
-          notify('Saved lineup & jersey edits reset! Reloading...');
-          setTimeout(() => window.location.reload(), 600);
-        });
-
-        // Export 1080x1920 Matchday Story PNG Poster
-        document.getElementById('jjsc-export-poster').addEventListener('click', () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = 1080;
-          canvas.height = 1920;
-          const ctx = canvas.getContext('2d');
-
-          const bg = ctx.createLinearGradient(0, 0, 1080, 1920);
-          bg.addColorStop(0, '#0b1128');
-          bg.addColorStop(0.5, '#162252');
-          bg.addColorStop(1, '#060a1a');
-          ctx.fillStyle = bg;
-          ctx.fillRect(0, 0, 1080, 1920);
-
-          ctx.strokeStyle = '#facc15';
-          ctx.lineWidth = 8;
-          ctx.strokeRect(36, 36, 1008, 1848);
-
-          ctx.fillStyle = '#facc15';
-          ctx.font = 'bold 34px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText('GOPALGONJ • OFFICIAL MATCHDAY LINEUP', 540, 125);
-
-          ctx.fillStyle = '#ffffff';
-          ctx.font = '900 84px sans-serif';
-          ctx.fillText('JJSC FC', 540, 215);
-
-          ctx.fillStyle = '#93c5fd';
-          ctx.font = 'bold 30px sans-serif';
-          ctx.fillText('JHONJHONIA FOOTBALL CLUB • 2026', 540, 265);
-
-          const px = 110, py = 330, pw = 860, ph = 1220;
-          const pitchGrad = ctx.createLinearGradient(0, py, 0, py + ph);
-          pitchGrad.addColorStop(0, '#14532d');
-          pitchGrad.addColorStop(0.5, '#166534');
-          pitchGrad.addColorStop(1, '#14532d');
-          ctx.fillStyle = pitchGrad;
-          ctx.fillRect(px, py, pw, ph);
-
-          ctx.strokeStyle = 'rgba(255,255,255,0.68)';
-          ctx.lineWidth = 5;
-          ctx.strokeRect(px, py, pw, ph);
-          ctx.beginPath();
-          ctx.moveTo(px, py + ph / 2);
-          ctx.lineTo(px + pw, py + ph / 2);
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.arc(px + pw / 2, py + ph / 2, 115, 0, Math.PI * 2);
-          ctx.stroke();
-
-          ctx.strokeRect(px + pw * 0.25, py, pw * 0.5, 160);
-          ctx.strokeRect(px + pw * 0.25, py + ph - 160, pw * 0.5, 160);
-
-          // Rotate horizontal pitch coordinates onto vertical story poster
-          activePitchTokens.forEach(token => {
-            const p = squadData.find(s => s.id === token.playerId);
-            if (!p) return;
-            const cx = px + (token.y / 100) * pw;
-            const cy = py + ((100 - token.x) / 100) * ph;
-
-            ctx.beginPath();
-            ctx.arc(cx, cy, 46, 0, Math.PI * 2);
-            ctx.fillStyle = '#162252';
-            ctx.fill();
-            ctx.lineWidth = 5;
-            ctx.strokeStyle = '#facc15';
-            ctx.stroke();
-
-            ctx.fillStyle = '#facc15';
-            ctx.font = 'bold 24px sans-serif';
-            ctx.fillText(`#${p.number}`, cx, cy - 4);
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 21px sans-serif';
-            ctx.fillText(p.name.toUpperCase(), cx, cy + 22);
-          });
-
-          ctx.fillStyle = '#facc15';
-          ctx.font = 'bold 27px sans-serif';
-          ctx.fillText('PRES: MEHERUN NESA • ORG/CAP: AARIZ (#17) • FUND: NAFIZ (#7)', 540, 1635);
-
-          ctx.fillStyle = '#cbd5e1';
-          ctx.font = '24px sans-serif';
-          ctx.fillText('Partners: ATN • Sports Bangla • SSLCommerz • Spized | WA: +880 1925-114987', 540, 1700);
-          ctx.fillText('aariz17.github.io/JJSC-FC', 540, 1765);
-
-          const link = document.createElement('a');
-          link.download = `JJSC-FC-Matchday-Story-${new Date().toISOString().slice(0, 10)}.png`;
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-          notify('1080×1920 Matchday Story Poster downloaded!');
-        });
-
-        renderTacticsBoard();
-      }
-
-      // 6. RENDER 12-PLAYER SQUAD GRID
-      function renderSquad() {
-        const grid = document.getElementById('squad-grid');
-        const list = squadData.filter(p => activeRoleFilter === 'all' || p.category === activeRoleFilter);
-
-        grid.innerHTML = list.map(p => `
-          <div onclick="loadPlayerIntoKit(${p.id})"
-               class="group cursor-pointer rounded-3xl p-6 relative overflow-hidden transition-all duration-300 hover:-translate-y-2 ${
-                 p.isCaptain ? 'glass-gold border-gold-400/75 shadow-[0_0_28px_rgba(250,204,21,0.2)]' : 'glass-panel border-white/10 hover:border-gold-400/50'
-               }">
-            <div class="absolute -right-2 -bottom-6 font-jersey font-bold text-[120px] leading-none select-none pointer-events-none ${
-              p.isCaptain ? 'text-gold-400/15' : 'text-white/[0.04]'
-            }">${p.number}</div>
-
-            <div class="relative z-10 flex items-center justify-between mb-6">
-              <div class="w-12 h-12 rounded-2xl flex items-center justify-center font-display font-bold text-xl shadow ${
-                p.isCaptain ? 'bg-gradient-to-br from-gold-300 to-gold-500 text-navy-950' : 'bg-navy-800 border border-gold-400/40 text-gold-400'
-              }">
-                #${p.number}
-              </div>
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
-                p.isCaptain
-                  ? 'bg-gold-400 text-navy-950'
-                  : p.category === 'Leadership'
-                    ? 'bg-cobalt-500/50 text-blue-200 border border-blue-400/40'
-                    : 'bg-white/5 text-slate-300'
-              }">
-                ${p.badge}
-              </span>
-            </div>
-
-            <div class="relative z-10">
-              <h3 class="font-display font-bold text-2xl sm:text-3xl uppercase tracking-wide text-white group-hover:text-gold-400 transition-colors">
-                ${p.name}
-              </h3>
-              <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mt-1">${p.role}</p>
-            </div>
-
-            <div class="relative z-10 mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-300 group-hover:text-gold-300">
-              <span>Load in 2026 Jersey Studio</span>
-              <span>&rarr;</span>
-            </div>
+      pitchPositions.forEach(pt => {
+        const player = SQUAD.find(p => p.id === pt.playerId) || SQUAD[0];
+        const token = document.createElement('div');
+        token.className = 'pitch-token absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-grab';
+        token.style.left = `${pt.x}%`;
+        token.style.top = `${pt.y}%`;
+        token.innerHTML = `
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-navy-950/95 border-2 ${player.id === selectedPlayerId ? 'border-gold-400 shadow-[0_0_16px_rgba(250,204,21,0.75)]' : 'border-white/75'} flex items-center justify-center font-jersey font-bold text-xl text-gold-300">
+            ${player.number}
           </div>
-        `).join('');
-      }
+          <span class="mt-1 px-2 py-0.5 rounded bg-navy-950/90 border border-white/15 text-[10px] font-bold text-white whitespace-nowrap">
+            ${player.name}
+          </span>
+        `;
 
-      // 7. WHATSAPP CHALLENGE HUB (+880 1925-114987)
-      function initWhatsAppHub() {
-        const clubIn = document.getElementById('opp-club-name');
-        const fmtIn = document.getElementById('match-format');
-        const dtIn = document.getElementById('match-datetime');
-        const venIn = document.getElementById('match-venue');
-        const noteIn = document.getElementById('match-extra-note');
-        const preview = document.getElementById('whatsapp-preview-text');
-
-        function buildMessage() {
-          const club = clubIn.value.trim() || '[Challenger Club]';
-          const fmt = fmtIn.value;
-          const dt = dtIn.value.trim() || '[Preferred Date & Time]';
-          const ven = venIn.value.trim() || 'Gopalgonj Turf';
-          const note = noteIn.value.trim();
-
-          let msg = `Assalamu Alaikum JJSC FC! ⚽\nWe want to challenge your squad to a *${fmt}*.\n• Club: ${club}\n• Date & Time: ${dt}\n• Venue: ${ven}, Gopalgonj`;
-          if (note) msg += `\n• Note: ${note}`;
-          msg += `\nLet's lock the match!`;
-          return msg;
-        }
-
-        function syncPreview() {
-          preview.textContent = buildMessage().replace(/\n/g, ' | ');
-        }
-
-        [clubIn, fmtIn, dtIn, venIn, noteIn].forEach(el => el.addEventListener('input', syncPreview));
-        syncPreview();
-
-        document.getElementById('whatsapp-challenge-form').addEventListener('submit', e => {
+        token.addEventListener('pointerdown', e => {
           e.preventDefault();
-          const url = `https://wa.me/8801925114987?text=${encodeURIComponent(buildMessage())}`;
-          notify('Opening WhatsApp Matchdesk (+880 1925-114987)...');
-          window.open(url, '_blank', 'noopener,noreferrer');
+          selectedPlayerId = player.id;
+          updateInspector();
+          renderPitchTokens();
+          token.classList.add('dragging');
+          const surface = document.getElementById('pitch-3d-surface');
+          if (!surface) return;
+
+          function onMove(ev) {
+            const rect = surface.getBoundingClientRect();
+            const nx = Math.min(Math.max(((ev.clientX - rect.left) / rect.width) * 100, 6), 94);
+            const ny = Math.min(Math.max(((ev.clientY - rect.top) / rect.height) * 100, 8), 92);
+            pt.x = nx;
+            pt.y = ny;
+            token.style.left = `${nx}%`;
+            token.style.top = `${ny}%`;
+            updateInspector();
+          }
+
+          function onUp() {
+            token.classList.remove('dragging');
+            window.removeEventListener('pointermove', onMove);
+            window.removeEventListener('pointerup', onUp);
+            localStorage.setItem('jjsc_pitch_positions_v1', JSON.stringify(pitchPositions));
+          }
+
+          window.addEventListener('pointermove', onMove);
+          window.addEventListener('pointerup', onUp);
         });
+
+        layer.appendChild(token);
+      });
+    }
+
+    function renderBench() {
+      const bench = document.getElementById('bench-list');
+      if (!bench) return;
+      bench.innerHTML = SQUAD.map(p => `
+        <button type="button" data-bench-id="${p.id}" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl ${p.id === selectedPlayerId ? 'bg-gold-400/20 border border-gold-400/60' : 'bg-navy-950/80 border border-white/10 hover:border-gold-400/40'} text-left transition-all">
+          <div>
+            <span class="text-xs font-bold text-white">${p.name}</span>
+            <span class="text-[11px] text-slate-400 ml-2">${p.role}</span>
+          </div>
+          <span class="font-jersey font-bold text-lg text-gold-400">#${p.number}</span>
+        </button>
+      `).join('');
+
+      bench.querySelectorAll('[data-bench-id]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          selectedPlayerId = Number(btn.dataset.benchId);
+          updateInspector();
+          renderPitchTokens();
+          renderBench();
+        });
+      });
+    }
+
+    function renderSquad() {
+      const grid = document.getElementById('squad-grid');
+      if (!grid) return;
+      const list = activeRoleFilter === 'ALL' ? SQUAD : SQUAD.filter(p => p.role === activeRoleFilter);
+      grid.innerHTML = list.map(p => `
+        <div class="glass-panel rounded-2xl p-5 border ${p.id === selectedPlayerId ? 'border-gold-400' : 'border-white/10'} flex items-center justify-between gap-3">
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-gold-400">${p.role}</span>
+            <h3 class="font-display font-bold text-2xl uppercase text-white">${p.name}</h3>
+            <p class="text-xs text-slate-400">${p.title}</p>
+          </div>
+          <span class="font-jersey font-bold text-4xl text-gold-400">#${p.number}</span>
+        </div>
+      `).join('');
+    }
+
+    function initTacticsBoard() {
+      const savedPos = localStorage.getItem('jjsc_pitch_positions_v1');
+      if (savedPos) {
+        try {
+          const parsed = JSON.parse(savedPos);
+          if (Array.isArray(parsed) && parsed.length) pitchPositions = parsed;
+        } catch (_) {}
       }
 
-      // 8. AMBIENT PARTICLE CANVAS WITH OFFSCREEN BATTERY GUARD
-      function initParticles() {
-        const canvas = document.getElementById('hero-particles');
-        const ctx = canvas.getContext('2d');
-        let visible = true;
+      const params = new URLSearchParams(window.location.search);
+      const lineupParam = params.get('lineup');
+      if (lineupParam) {
+        try {
+          const decoded = JSON.parse(decodeUtf8Base64(lineupParam));
+          if (Array.isArray(decoded) && decoded.length) {
+            pitchPositions = decoded;
+            showToast('Loaded shared JJSC FC lineup!');
+          }
+        } catch (_) {}
+      }
 
-        function resize() {
-          canvas.width = canvas.offsetWidth;
-          canvas.height = canvas.offsetHeight;
+      document.querySelectorAll('.formation-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const f = btn.dataset.formation;
+          if (!FORMATIONS[f]) return;
+          activeFormation = f;
+          pitchPositions = FORMATIONS[f].map(p => ({ ...p }));
+          localStorage.setItem('jjsc_pitch_positions_v1', JSON.stringify(pitchPositions));
+          document.querySelectorAll('.formation-btn').forEach(b => {
+            b.className = b === btn
+              ? 'formation-btn px-4 py-2.5 rounded-xl bg-gold-400 text-navy-950 font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition-all'
+              : 'formation-btn px-4 py-2.5 rounded-xl bg-navy-850 text-slate-200 hover:text-gold-300 border border-white/15 font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition-all';
+          });
+          renderPitchTokens();
+          updateInspector();
+          showToast(`Switched to ${f}`);
+        });
+      });
+
+      const tiltBtn = document.getElementById('pitch-3d-toggle');
+      const surface = document.getElementById('pitch-3d-surface');
+      tiltBtn?.addEventListener('click', () => {
+        pitch3DTilt = !pitch3DTilt;
+        tiltBtn.textContent = pitch3DTilt ? '3D Tilt: ON' : '3D Tilt: OFF';
+        if (surface) {
+          surface.style.transform = pitch3DTilt ? 'rotateX(18deg) rotateZ(0deg)' : 'rotateX(0deg) rotateZ(0deg)';
         }
-        window.addEventListener('resize', resize);
-        resize();
+      });
 
-        const dots = Array.from({ length: 38 }, () => ({
+      let locked = false;
+      const lockBtn = document.getElementById('jjsc-toggle-lock');
+      lockBtn?.addEventListener('click', () => {
+        locked = !locked;
+        surface?.classList.toggle('pitch-locked', locked);
+        lockBtn.textContent = locked ? '🔒 Pitch Locked (Scroll Safe)' : '🔓 Pitch Unlocked (Tap to Lock Scroll)';
+        showToast(locked ? 'Pitch locked for smooth mobile scrolling' : 'Pitch unlocked');
+      });
+
+      document.getElementById('jjsc-share-lineup')?.addEventListener('click', async () => {
+        const encoded = encodeURIComponent(encodeUtf8Base64(JSON.stringify(pitchPositions)));
+        const shareUrl = `${window.location.origin}${window.location.pathname}?lineup=${encoded}#tactics`;
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          showToast('Lineup link copied!');
+        } catch (_) {
+          prompt('Copy JJSC FC lineup link:', shareUrl);
+        }
+      });
+
+      document.getElementById('jjsc-export-poster')?.addEventListener('click', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1080;
+        canvas.height = 1920;
+        const ctx = canvas.getContext('2d');
+
+        const bg = ctx.createLinearGradient(0, 0, 1080, 1920);
+        bg.addColorStop(0, '#0b1128');
+        bg.addColorStop(0.5, '#162252');
+        bg.addColorStop(1, '#060a1a');
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, 1080, 1920);
+
+        ctx.strokeStyle = '#facc15';
+        ctx.lineWidth = 8;
+        ctx.strokeRect(36, 36, 1008, 1848);
+
+        ctx.fillStyle = '#facc15';
+        ctx.font = 'bold 32px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('GOPALGONJ • OFFICIAL MATCHDAY LINEUP', 540, 125);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 84px sans-serif';
+        ctx.fillText('JJSC FC', 540, 215);
+
+        ctx.fillStyle = '#93c5fd';
+        ctx.font = 'bold 28px sans-serif';
+        ctx.fillText(`JHONJHONIA FOOTBALL CLUB • ${activeFormation}`, 540, 265);
+
+        const px = 110, py = 320, pw = 860, ph = 1230;
+        ctx.fillStyle = '#14532d';
+        ctx.fillRect(px, py, pw, ph);
+        ctx.strokeStyle = 'rgba(255,255,255,0.65)';
+        ctx.lineWidth = 5;
+        ctx.strokeRect(px, py, pw, ph);
+        ctx.beginPath();
+        ctx.moveTo(px, py + ph / 2);
+        ctx.lineTo(px + pw, py + ph / 2);
+        ctx.stroke();
+
+        pitchPositions.forEach(pt => {
+          const player = SQUAD.find(p => p.id === pt.playerId) || SQUAD[0];
+          const cx = px + (Math.min(Math.max(pt.x, 6), 94) / 100) * pw;
+          const cy = py + (Math.min(Math.max(pt.y, 8), 92) / 100) * ph;
+
+          ctx.beginPath();
+          ctx.arc(cx, cy, 42, 0, Math.PI * 2);
+          ctx.fillStyle = '#0b1128';
+          ctx.fill();
+          ctx.lineWidth = 5;
+          ctx.strokeStyle = '#facc15';
+          ctx.stroke();
+
+          ctx.fillStyle = '#facc15';
+          ctx.font = 'bold 24px sans-serif';
+          ctx.fillText(`#${player.number}`, cx, cy - 2);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 18px sans-serif';
+          ctx.fillText(player.name, cx, cy + 20);
+        });
+
+        ctx.fillStyle = '#facc15';
+        ctx.font = 'bold 26px sans-serif';
+        ctx.fillText('PRES: MEHERUN NESA • ORG/CAP: AARIZ (#17) • FUND: NAFIZ (#7)', 540, 1635);
+
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '24px sans-serif';
+        ctx.fillText('WhatsApp: +880 1925-114987 • aariz17.github.io/JJSC-FC', 540, 1705);
+
+        const link = document.createElement('a');
+        link.download = `JJSC-FC-Lineup-${activeFormation}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        showToast('1080×1920 Matchday Story downloaded!');
+      });
+
+      document.getElementById('jjsc-reset-data')?.addEventListener('click', () => {
+        Object.keys(localStorage).filter(k => k.startsWith('jjsc_')).forEach(k => localStorage.removeItem(k));
+        showToast('Saved edits cleared. Reloading...');
+        setTimeout(() => window.location.reload(), 500);
+      });
+
+      document.getElementById('inspector-edit-jersey-btn')?.addEventListener('click', () => {
+        const sel = document.getElementById('kit-player-select');
+        if (sel) {
+          sel.value = String(selectedPlayerId);
+          sel.dispatchEvent(new Event('change'));
+        }
+        document.getElementById('kit')?.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      renderPitchTokens();
+      renderBench();
+      updateInspector();
+    }
+
+    // Squad Filters, Mobile Menu, WhatsApp Challenge & Ambient Canvas
+    document.querySelectorAll('.role-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeRoleFilter = btn.dataset.roleFilter;
+        document.querySelectorAll('.role-filter-btn').forEach(b => {
+          b.className = b === btn
+            ? 'role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase bg-gold-400 text-navy-950'
+            : 'role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase text-slate-300 hover:text-white bg-navy-950 border border-white/10';
+        });
+        renderSquad();
+      });
+    });
+
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.toggle('hidden');
+    });
+    document.querySelectorAll('.mobile-link').forEach(l => {
+      l.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.add('hidden'));
+    });
+
+    document.getElementById('whatsapp-challenge-form')?.addEventListener('submit', e => {
+      e.preventDefault();
+      const team = document.getElementById('challenger-team')?.value || 'Rival Club';
+      const fmt = document.getElementById('challenger-format')?.value || '11v11';
+      const dt = document.getElementById('challenger-date')?.value || 'TBD';
+      const venue = document.getElementById('challenger-venue')?.value || 'Gopalgonj';
+      const text = encodeURIComponent(
+        `Assalamu Alaikum JJSC FC (Gopalgonj)!\nMatch Challenge from: ${team}\nFormat: ${fmt}\nWhen: ${dt}\nVenue: ${venue}`
+      );
+      window.open(`https://wa.me/8801925114987?text=${text}`, '_blank', 'noopener,noreferrer');
+    });
+
+    // Ambient Hero Gold Sparks (pauses when scrolled out of view)
+    (function initParticles() {
+      const canvas = document.getElementById('hero-particles');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let visible = true;
+      let sparks = [];
+
+      function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        sparks = Array.from({ length: 28 }, () => ({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          r: Math.random() * 2 + 0.6,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: -Math.random() * 0.4 - 0.15,
-          a: Math.random() * 0.6 + 0.2
+          r: 1 + Math.random() * 2.2,
+          vy: -(0.25 + Math.random() * 0.55),
+          a: 0.2 + Math.random() * 0.55
         }));
+      }
+      resize();
+      window.addEventListener('resize', resize);
 
-        if ('IntersectionObserver' in window) {
-          new IntersectionObserver(entries => {
-            visible = entries[0].isIntersecting;
-          }, { threshold: 0.05 }).observe(canvas);
-        }
-
-        function tick() {
-          if (visible) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            dots.forEach(d => {
-              d.x += d.vx;
-              d.y += d.vy;
-              if (d.y < 0) d.y = canvas.height;
-              if (d.x < 0) d.x = canvas.width;
-              if (d.x > canvas.width) d.x = 0;
-              ctx.beginPath();
-              ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-              ctx.fillStyle = `rgba(250, 204, 21, ${d.a})`;
-              ctx.fill();
-            });
-          }
-          requestAnimationFrame(tick);
-        }
-        tick();
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(entries => {
+          visible = entries[0]?.isIntersecting ?? true;
+        }, { threshold: 0.05 }).observe(canvas);
       }
 
-      // 9. BOOT APPLICATION
-      document.addEventListener('DOMContentLoaded', () => {
-        init3DCrestSanctum();
-        initJerseyStudio();
-        initTacticsTools();
-        renderSquad();
-        initWhatsAppHub();
-        initParticles();
-
-        document.querySelectorAll('.role-filter-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            activeRoleFilter = btn.dataset.roleFilter;
-            document.querySelectorAll('.role-filter-btn').forEach(b => {
-              b.className = b.dataset.roleFilter === activeRoleFilter
-                ? 'role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase bg-gold-400 text-navy-950'
-                : 'role-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold uppercase text-slate-300 hover:text-white';
-            });
-            renderSquad();
+      function draw() {
+        if (visible && canvas.width && canvas.height) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          sparks.forEach(s => {
+            s.y += s.vy;
+            if (s.y < -10) s.y = canvas.height + 10;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(250, 204, 21, ${s.a})`;
+            ctx.fill();
           });
-        });
-
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-        document.querySelectorAll('.mobile-link').forEach(link => {
-          link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-        });
-
-        const revealObs = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('active');
-          });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-      });
+        }
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
     })();
-    const candidates = [
-  'PASTE_EXACT_FILENAME_HERE.png',
-  'logo.png',
-  'logo.jpg',
-  'crest.png'
-];
+
+    renderSquad();
+    initJerseyStudio();
+    initTacticsBoard();
   </script>
 </body>
 </html>
