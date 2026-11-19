@@ -1520,6 +1520,370 @@
           visible = entries[0]?.isIntersecting ?? true;
         }, { threshold: 0.05 }).observe(canvas);
       }
+      <!-- ======================================================================
+     JJSC FC ADD-ON: FIXTURES & RESULTS TRACKER  (v1)
+     ----------------------------------------------------------------------
+     HOW TO INSTALL (2 pastes, nothing else changes):
+
+     PASTE A (optional hook): in your page, put this line BETWEEN the end of
+       the Squad section  ...</section>  (the one with id="squad")
+       and the line  <!-- 6. GOPALGONJ HERITAGE & TROPHY CABINET -->
+       <section id="jjsc-fixtures-addon"></section>
+     (If you skip this, the script auto-inserts the section just before
+      #heritage, or before the footer if #heritage is missing.)
+
+     PASTE B: paste everything from <style id="jjsc-fixtures-css"> down to the
+       closing </script> of this file IMMEDIATELY BEFORE </body>, i.e. AFTER
+       your existing big <script> block.
+
+     Storage key: jjsc_fixtures_v1  (starts with "jjsc_", so your existing
+     "Reset State" button clears it too.)
+     ====================================================================== -->
+
+<!-- ===== PASTE A (optional) ===== -->
+<section id="jjsc-fixtures-addon"></section>
+
+
+<!-- ===== PASTE B: CSS + JS, right before </body> ===== -->
+<style id="jjsc-fixtures-css">
+  .fx-card { transition: transform .25s ease, border-color .25s ease; }
+  .fx-card:hover { transform: translateY(-3px); }
+  .fx-pill { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px;
+             border-radius:10px; font-family:'Oswald',sans-serif; font-weight:700; font-size:14px; }
+  .fx-W { background:rgba(16,185,129,.22); color:#6ee7b7; border:1px solid rgba(16,185,129,.55); }
+  .fx-D { background:rgba(250,204,21,.18); color:#fde047; border:1px solid rgba(250,204,21,.5); }
+  .fx-L { background:rgba(239,68,68,.2);  color:#fca5a5; border:1px solid rgba(239,68,68,.5); }
+  .fx-input { width:100%; padding:.7rem 1rem; border-radius:.75rem; background:#060a1a; color:#fff;
+              border:1px solid rgba(255,255,255,.15); font-size:.875rem; }
+  .fx-input:focus { outline:none; border-color:#facc15; }
+  .fx-input::placeholder { color:#64748b; }
+  .fx-label { display:block; font-size:.7rem; font-weight:700; text-transform:uppercase;
+              letter-spacing:.08em; color:#cbd5e1; margin-bottom:.35rem; }
+  .fx-btn { padding:.5rem .85rem; border-radius:.65rem; font-family:'Oswald',sans-serif; font-weight:700;
+            font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; transition:all .2s ease; cursor:pointer; }
+  .fx-btn-gold { background:#facc15; color:#060a1a; }
+  .fx-btn-gold:hover { background:#fde047; }
+  .fx-btn-ghost { background:#060a1a; color:#cbd5e1; border:1px solid rgba(255,255,255,.15); }
+  .fx-btn-ghost:hover { border-color:#facc15; color:#fff; }
+  .fx-btn-green { background:rgba(16,185,129,.2); color:#6ee7b7; border:1px solid rgba(16,185,129,.5); }
+  .fx-btn-green:hover { background:#10b981; color:#060a1a; }
+  .fx-btn-red:hover { background:rgba(239,68,68,.2); color:#fca5a5; border-color:rgba(239,68,68,.5); }
+  .fx-score { width:64px; text-align:center; }
+  .fx-scroll { max-height: 460px; overflow-y: auto; padding-right: 4px; }
+</style>
+
+<script id="jjsc-fixtures-js">
+(function () {
+  'use strict';
+
+  var STORE_KEY = 'jjsc_fixtures_v1';
+  var WA_SHARE = 'https://wa.me/?text=';
+
+  /* ---------- safe storage ---------- */
+  function load() {
+    try {
+      var v = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(fixtures)); } catch (e) { /* storage blocked */ }
+  }
+
+  var fixtures = load();
+  var loggingId = null;   // fixture currently showing the score inputs
+  var root = null;
+
+  /* ---------- helpers ---------- */
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function uid() { return 'fx' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+  function fmtWhen(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return iso || 'Date TBC';
+    try {
+      return d.toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+    } catch (e) { return d.toString(); }
+  }
+  function ts(f) { var t = new Date(f.when).getTime(); return isNaN(t) ? 0 : t; }
+  function outcome(f) { return f.us > f.them ? 'W' : f.us < f.them ? 'L' : 'D'; }
+
+  function toast(msg) {
+    // reuse the site's existing toast if present, silently skip otherwise
+    var el = document.getElementById('jjsc-toast');
+    var tx = document.getElementById('jjsc-toast-text');
+    if (!el || !tx) return;
+    tx.textContent = msg;
+    el.classList.remove('translate-y-24', 'opacity-0');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { el.classList.add('translate-y-24', 'opacity-0'); }, 2600);
+  }
+
+  function shareText(f) {
+    if (f.status === 'played') {
+      return 'FULL TIME ⚽\nJJSC FC ' + f.us + ' - ' + f.them + ' ' + f.opp + '\n(' + f.fmt + ', ' + f.venue + ', Gopalgonj)\nOne Crest. One Brotherhood. Never Back Down.';
+    }
+    return 'MATCHDAY ⚽\nJJSC FC vs ' + f.opp + ' (' + f.fmt + ')\n📅 ' + fmtWhen(f.when) +
+           '\n📍 ' + f.venue + ', Gopalgonj\nOne Crest. One Brotherhood. Never Back Down.';
+  }
+  function openShare(f) {
+    window.open(WA_SHARE + encodeURIComponent(shareText(f)), '_blank', 'noopener,noreferrer');
+    toast('Opening WhatsApp share…');
+  }
+
+  /* ---------- section bootstrap (safe fallbacks) ---------- */
+  function ensureRoot() {
+    root = document.getElementById('jjsc-fixtures-addon');
+    if (root) return true;
+    root = document.createElement('section');
+    root.id = 'jjsc-fixtures-addon';
+    var anchor = document.getElementById('heritage') || document.querySelector('footer');
+    if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(root, anchor);
+    else if (document.body) document.body.appendChild(root);
+    else return false;
+    return true;
+  }
+
+  function addNavLinks() {
+    try {
+      var desk = document.querySelector('nav a[href="#squad"]');
+      if (desk && !document.querySelector('nav a[href="#fixtures"]')) {
+        var a = document.createElement('a');
+        a.href = '#fixtures';
+        a.className = desk.className;
+        a.textContent = 'Fixtures';
+        desk.insertAdjacentElement('afterend', a);
+      }
+      var mob = document.querySelector('#mobile-menu a[href="#squad"]');
+      if (mob && !document.querySelector('#mobile-menu a[href="#fixtures"]')) {
+        var m = document.createElement('a');
+        m.href = '#fixtures';
+        m.className = mob.className;
+        m.textContent = 'Fixtures & Results';
+        m.addEventListener('click', function () {
+          var menu = document.getElementById('mobile-menu');
+          if (menu) menu.classList.add('hidden');
+        });
+        mob.insertAdjacentElement('afterend', m);
+      }
+    } catch (e) { /* nav hooks are optional */ }
+  }
+
+  /* ---------- render ---------- */
+  function shell() {
+    root.id = 'jjsc-fixtures-addon';
+    root.setAttribute('class', 'py-24 bg-navy-950 border-t border-white/10');
+    root.innerHTML =
+      '<span id="fixtures" class="block relative -top-20"></span>' +
+      '<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">' +
+        '<div class="text-center max-w-3xl mx-auto mb-12">' +
+          '<span class="text-xs font-extrabold tracking-[0.25em] uppercase text-emerald-400 block mb-2">Matchday Diary &bull; Gopalgonj</span>' +
+          '<h2 class="font-display font-bold text-4xl sm:text-5xl uppercase tracking-tight text-white">Fixtures &amp; <span class="text-gold-metallic">Results</span></h2>' +
+          '<p class="text-slate-300 mt-3 text-sm sm:text-base">Add upcoming turf clashes, log the final score, and share the fixture or full-time result straight to your WhatsApp group. Saved on this device.</p>' +
+        '</div>' +
+        '<div id="fx-stats" class="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-8"></div>' +
+        '<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">' +
+          '<div class="lg:col-span-4"><div class="glass-gold rounded-3xl p-5 sm:p-6 space-y-4">' +
+            '<h3 class="font-display font-bold text-xl uppercase text-white border-b border-white/15 pb-3">Add Fixture</h3>' +
+            '<form id="fx-form" class="space-y-3">' +
+              '<div><label class="fx-label" for="fx-opp">Opponent *</label><input class="fx-input" id="fx-opp" required maxlength="40" placeholder="e.g., Gopalgonj Kings FC"></div>' +
+              '<div class="grid grid-cols-2 gap-3">' +
+                '<div><label class="fx-label" for="fx-fmt">Format</label><select class="fx-input" id="fx-fmt"><option>6v6 Turf</option><option>7v7 Turf</option><option>11v11 Full Ground</option></select></div>' +
+                '<div><label class="fx-label" for="fx-when">Date &amp; Time *</label><input class="fx-input" id="fx-when" type="datetime-local" required></div>' +
+              '</div>' +
+              '<div><label class="fx-label" for="fx-venue">Venue *</label><input class="fx-input" id="fx-venue" required maxlength="50" placeholder="e.g., Gopalgonj Sadar Turf"></div>' +
+              '<button type="submit" class="fx-btn fx-btn-gold w-full" style="padding:.85rem;font-size:.85rem">+ Add Upcoming Fixture</button>' +
+            '</form>' +
+            '<div class="pt-3 border-t border-white/15"><span class="fx-label">Recent Form</span><div id="fx-form-strip" class="flex gap-2 flex-wrap"></div></div>' +
+          '</div></div>' +
+          '<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">' +
+            '<div><h3 class="font-display font-bold text-lg uppercase text-gold-400 mb-3">&#128197; Upcoming</h3><div id="fx-upcoming" class="fx-scroll space-y-3"></div></div>' +
+            '<div><h3 class="font-display font-bold text-lg uppercase text-emerald-400 mb-3">&#9989; Results</h3><div id="fx-results" class="fx-scroll space-y-3"></div></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function statBox(label, val, accent) {
+    return '<div class="glass-panel rounded-2xl p-3 text-center border-b-2 ' + accent + '">' +
+      '<div class="font-display font-bold text-2xl text-white">' + val + '</div>' +
+      '<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">' + label + '</div></div>';
+  }
+
+  function renderStats() {
+    var played = fixtures.filter(function (f) { return f.status === 'played'; });
+    var w = 0, d = 0, l = 0, gf = 0, ga = 0;
+    played.forEach(function (f) {
+      var o = outcome(f);
+      if (o === 'W') w++; else if (o === 'D') d++; else l++;
+      gf += f.us; ga += f.them;
+    });
+    var el = document.getElementById('fx-stats');
+    if (!el) return;
+    el.innerHTML =
+      statBox('Played', played.length, 'border-gold-400') +
+      statBox('Won', w, 'border-emerald-400') +
+      statBox('Drawn', d, 'border-yellow-300') +
+      statBox('Lost', l, 'border-red-400') +
+      statBox('Goals For', gf, 'border-blue-400') +
+      statBox('Goals Against', ga, 'border-slate-500');
+
+    var strip = document.getElementById('fx-form-strip');
+    if (strip) {
+      var last = played.slice().sort(function (a, b) { return ts(b) - ts(a); }).slice(0, 5).reverse();
+      strip.innerHTML = last.length
+        ? last.map(function (f) { var o = outcome(f); return '<span class="fx-pill fx-' + o + '" title="' + esc(f.opp) + '">' + o + '</span>'; }).join('')
+        : '<span class="text-xs text-slate-500">No results logged yet</span>';
+    }
+  }
+
+  function upcomingCard(f) {
+    var logging = loggingId === f.id;
+    return '<div class="fx-card glass-panel rounded-2xl p-4 border border-gold-400/25" data-id="' + f.id + '">' +
+      '<div class="flex items-start justify-between gap-2">' +
+        '<div class="min-w-0"><div class="font-display font-bold text-lg text-white uppercase truncate">JJSC FC vs ' + esc(f.opp) + '</div>' +
+        '<div class="text-xs text-slate-300 mt-0.5">' + esc(fmtWhen(f.when)) + '</div>' +
+        '<div class="text-xs text-slate-400">&#128205; ' + esc(f.venue) + ', Gopalgonj</div></div>' +
+        '<span class="px-2 py-0.5 rounded-full bg-gold-400/15 border border-gold-400/40 text-gold-300 text-[10px] font-extrabold uppercase whitespace-nowrap">' + esc(f.fmt) + '</span>' +
+      '</div>' +
+      (logging
+        ? '<div class="mt-3 flex flex-wrap items-center gap-2">' +
+            '<span class="text-xs font-bold text-white">JJSC</span>' +
+            '<input class="fx-input fx-score" type="number" min="0" max="99" inputmode="numeric" data-score="us" placeholder="0">' +
+            '<span class="text-slate-400">-</span>' +
+            '<input class="fx-input fx-score" type="number" min="0" max="99" inputmode="numeric" data-score="them" placeholder="0">' +
+            '<span class="text-xs font-bold text-white truncate max-w-[90px]">' + esc(f.opp) + '</span>' +
+            '<button type="button" class="fx-btn fx-btn-gold" data-act="save-score">Save</button>' +
+            '<button type="button" class="fx-btn fx-btn-ghost" data-act="cancel-score">Cancel</button>' +
+          '</div>'
+        : '<div class="mt-3 flex flex-wrap gap-2">' +
+            '<button type="button" class="fx-btn fx-btn-green" data-act="log">Log Result</button>' +
+            '<button type="button" class="fx-btn fx-btn-ghost" data-act="share">Share</button>' +
+            '<button type="button" class="fx-btn fx-btn-ghost fx-btn-red" data-act="delete">Delete</button>' +
+          '</div>') +
+    '</div>';
+  }
+
+  function resultCard(f) {
+    var o = outcome(f);
+    return '<div class="fx-card glass-panel rounded-2xl p-4 border border-white/10" data-id="' + f.id + '">' +
+      '<div class="flex items-center gap-3">' +
+        '<span class="fx-pill fx-' + o + '">' + o + '</span>' +
+        '<div class="min-w-0 flex-1">' +
+          '<div class="font-display font-bold text-lg text-white uppercase truncate">JJSC FC <span class="text-gold-400">' + f.us + ' - ' + f.them + '</span> ' + esc(f.opp) + '</div>' +
+          '<div class="text-xs text-slate-400 truncate">' + esc(fmtWhen(f.when)) + ' &bull; ' + esc(f.venue) + ' &bull; ' + esc(f.fmt) + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="mt-3 flex gap-2">' +
+        '<button type="button" class="fx-btn fx-btn-ghost" data-act="share">Share Result</button>' +
+        '<button type="button" class="fx-btn fx-btn-ghost" data-act="reopen">Edit</button>' +
+        '<button type="button" class="fx-btn fx-btn-ghost fx-btn-red" data-act="delete">Delete</button>' +
+      '</div></div>';
+  }
+
+  function empty(msg) {
+    return '<div class="rounded-2xl border border-dashed border-white/15 p-6 text-center text-xs text-slate-500">' + msg + '</div>';
+  }
+
+  function render() {
+    var up = fixtures.filter(function (f) { return f.status !== 'played'; }).sort(function (a, b) { return ts(a) - ts(b); });
+    var done = fixtures.filter(function (f) { return f.status === 'played'; }).sort(function (a, b) { return ts(b) - ts(a); });
+    var upEl = document.getElementById('fx-upcoming');
+    var reEl = document.getElementById('fx-results');
+    if (upEl) upEl.innerHTML = up.length ? up.map(upcomingCard).join('') : empty('No upcoming fixtures. Add one on the left.');
+    if (reEl) reEl.innerHTML = done.length ? done.map(resultCard).join('') : empty('No results yet. Log a score after your next match.');
+    renderStats();
+  }
+
+  /* ---------- events ---------- */
+  function findFixture(el) {
+    var card = el.closest('[data-id]');
+    if (!card) return null;
+    for (var i = 0; i < fixtures.length; i++) if (fixtures[i].id === card.getAttribute('data-id')) return fixtures[i];
+    return null;
+  }
+
+  function bind() {
+    var form = document.getElementById('fx-form');
+    if (form) {
+      var when = document.getElementById('fx-when');
+      if (when) {   // sensible default: tomorrow 8:00 PM
+        var d = new Date(Date.now() + 86400000); d.setHours(20, 0, 0, 0);
+        var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+        when.value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+      }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var opp = document.getElementById('fx-opp').value.trim();
+        var venue = document.getElementById('fx-venue').value.trim();
+        var w = document.getElementById('fx-when').value;
+        if (!opp || !venue || !w) return;
+        fixtures.push({
+          id: uid(), opp: opp, venue: venue, when: w,
+          fmt: document.getElementById('fx-fmt').value, status: 'upcoming', us: 0, them: 0
+        });
+        save();
+        document.getElementById('fx-opp').value = '';
+        document.getElementById('fx-venue').value = '';
+        render();
+        toast('Fixture added: JJSC FC vs ' + opp);
+      });
+    }
+
+    root.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (!btn) return;
+      var f = findFixture(btn);
+      if (!f) return;
+      var act = btn.getAttribute('data-act');
+
+      if (act === 'log' || act === 'reopen') {
+        if (act === 'reopen') { f.status = 'upcoming'; save(); }
+        loggingId = f.id; render();
+        var first = root.querySelector('[data-id="' + f.id + '"] [data-score="us"]');
+        if (first) first.focus();
+      } else if (act === 'cancel-score') {
+        loggingId = null; render();
+      } else if (act === 'save-score') {
+        var card = btn.closest('[data-id]');
+        var us = parseInt(card.querySelector('[data-score="us"]').value, 10);
+        var them = parseInt(card.querySelector('[data-score="them"]').value, 10);
+        if (isNaN(us) || isNaN(them) || us < 0 || them < 0) { toast('Enter both scores'); return; }
+        f.us = us; f.them = them; f.status = 'played';
+        loggingId = null; save(); render();
+        toast('Result saved: JJSC FC ' + us + '-' + them + ' ' + f.opp);
+      } else if (act === 'share') {
+        openShare(f);
+      } else if (act === 'delete') {
+        if (window.confirm('Delete this fixture?')) {
+          fixtures = fixtures.filter(function (x) { return x.id !== f.id; });
+          save(); render();
+        }
+      }
+    });
+  }
+
+  /* ---------- boot ---------- */
+  function boot() {
+    try {
+      if (!ensureRoot()) return;
+      shell();
+      addNavLinks();
+      bind();
+      render();
+    } catch (err) {
+      if (window.console) console.warn('JJSC fixtures add-on failed safely:', err);
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
 
       function draw() {
         if (visible && canvas.width && canvas.height) {
