@@ -271,6 +271,56 @@
       width: 0%;
       transition: width 1.15s cubic-bezier(0.22, 1, 0.36, 1);
     }
+
+    /* Minimalist B&W Official ID Card + Colored Crest Styling */
+    .jjsc-id-card {
+      background: #FFFFFF;
+      color: #090D16;
+      border: 2.5px solid #090D16;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+    .jjsc-id-card::before {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border: 1px solid #090D16;
+      border-radius: 12px;
+      pointer-events: none;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #idCardPrintArea,
+      #idCardPrintArea * {
+        visibility: visible !important;
+      }
+      #idCardPrintArea {
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        background: #FFFFFF !important;
+        padding: 12mm !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10mm !important;
+        z-index: 99999 !important;
+      }
+      .no-print-btn {
+        display: none !important;
+      }
+      .jjsc-id-card {
+        box-shadow: none !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
   </style>
 </head>
 <body class="antialiased selection:bg-champGold selection:text-navyDeep">
@@ -356,12 +406,13 @@
       </a>
 
       <!-- Desktop Menu -->
-      <div class="hidden xl:flex items-center gap-5 font-tech text-xs font-bold tracking-widest uppercase text-slate-200">
+      <div class="hidden xl:flex items-center gap-4 font-tech text-xs font-bold tracking-widest uppercase text-slate-200">
         <a href="#club-anthem" class="hover:text-champGold transition-colors">Anthem</a>
         <a href="#leaderboard" class="hover:text-champGold transition-colors">Leaderboard</a>
         <a href="#squad-roster" class="hover:text-champGold transition-colors">Squad & Captain</a>
         <a href="#tactical-board" class="hover:text-champGold transition-colors">3D Tactics</a>
         <a href="#jersey-store" class="hover:text-champGold transition-colors">Kit (৳520)</a>
+        <a href="#id-card-studio" class="hover:text-champGold transition-colors text-neonCyan">ID Cards</a>
         <a href="#poster-studio" class="hover:text-champGold transition-colors">Card Studio</a>
         <a href="#match-hub" class="hover:text-champGold transition-colors">Match & Fan Edit</a>
         <a href="#leadership" class="hover:text-champGold transition-colors">Committee</a>
@@ -412,7 +463,7 @@
           </p>
 
           <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed">
-            Led by Captain <strong class="text-champGold">Aariz (#17)</strong> and Manager <strong class="text-neonLime">Hamza (#47)</strong>. Explore our all-time dominance, reorderable squad cards, interactive 3D tactical board with Victory League mode, official club anthem, and order the royal-navy Home Jersey.
+            Led by Captain <strong class="text-champGold">Aariz (#17)</strong> and Manager <strong class="text-neonLime">Hamza (#47)</strong>. Explore our all-time dominance, reorderable squad cards, interactive 3D tactical board with Victory League mode, official club anthem, printable JD26 ID cards, and order the royal-navy Home Jersey.
           </p>
 
           <!-- Primary Hero CTAs -->
@@ -550,7 +601,7 @@
 
         <div class="flex flex-wrap items-center gap-2">
           <span id="anthemEngineBadge" class="px-3.5 py-1.5 rounded-xl bg-champGold/15 border border-champGold/40 font-tech text-xs font-bold uppercase tracking-wider text-champGold">
-            🔊 Stadium Synth Beat Ready
+            🎧 Official Anthem Ready
           </span>
         </div>
       </div>
@@ -618,34 +669,22 @@
             </div>
           </div>
 
-          <!-- Drop Audio URL (.mp3 / .wav / GitHub raw link) OR Pick Local Audio File -->
-          <div class="pt-4 border-t border-white/10 space-y-4">
+          <!-- Official Audio URL (.mp3 / .wav / GitHub raw link) -->
+          <div class="pt-4 border-t border-white/10 space-y-3">
             <div>
               <label for="anthemUrlInput" class="block font-tech text-xs font-bold uppercase tracking-widest text-champGold mb-1.5">
                 Load Official Song URL (.mp3 / .wav / GitHub Raw Link)
               </label>
               <div class="flex flex-col sm:flex-row gap-2.5">
-                <input id="anthemUrlInput" type="url" placeholder="https://raw.githubusercontent.com/.../jjsc-anthem.mp3"
+                <input id="anthemUrlInput" type="text" value="jjsc-anthem.mp3.mp3" placeholder="jjsc-anthem.mp3.mp3"
                   class="flex-1 px-4 py-2.5 rounded-xl bg-navyDeep/85 border border-white/15 focus:border-champGold focus:outline-none text-xs sm:text-sm text-white" />
                 <button type="button" onclick="loadAnthemFromUrlInput()" class="px-4 py-2.5 rounded-xl bg-neonCyan text-navyDeep font-tech text-xs font-bold uppercase tracking-wider hover:opacity-95 transition-all shrink-0">
                   Load Track URL
                 </button>
               </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-navyDeep/70 p-3.5 rounded-2xl border border-white/10">
-              <div>
-                <span class="font-tech text-xs font-bold uppercase tracking-wider text-white block">
-                  Test Local Audio File from Device
-                </span>
-                <span class="text-xs text-slate-400">
-                  Pick your club audio file (.mp3, .wav, .ogg) to play immediately in this browser.
-                </span>
-              </div>
-              <label class="px-4 py-2 rounded-xl bg-white/10 hover:bg-champGold hover:text-navyDeep font-tech text-xs font-bold uppercase tracking-wider text-champGold cursor-pointer transition-colors shrink-0 text-center">
-                📁 Choose Audio File
-                <input id="anthemFilePicker" type="file" accept="audio/*" onchange="handleLocalAnthemFile(event)" class="hidden" />
-              </label>
+              <p class="text-[11px] text-slate-400 mt-1.5">
+                Wired directly to <code class="text-champGold">jjsc-anthem.mp3.mp3</code> with automatic GitHub raw &amp; stadium synth beat backup.
+              </p>
             </div>
           </div>
         </div>
@@ -825,6 +864,9 @@
             <select id="formationSelect" onchange="applyFormationPreset(this.value)" class="bg-navyCard border border-white/15 rounded-xl px-3 py-2 font-tech text-xs font-bold uppercase text-white focus:outline-none focus:border-champGold">
               <!-- Populated dynamically per format -->
             </select>
+            <button type="button" onclick="applyFormationPreset(document.getElementById('formationSelect').value)" class="px-3 py-2 rounded-xl bg-white/5 hover:bg-champGold hover:text-navyDeep border border-white/15 font-tech text-xs font-bold uppercase text-champGold transition-colors" title="Snap players to true tactical roles">
+              ↺ Reset Formation
+            </button>
           </div>
 
           <!-- 3D Tilt Angle Control -->
@@ -1133,6 +1175,131 @@
   </section>
 
   <!-- =========================================================
+       SECTION 4A: OFFICIAL CLUB ID CARD STUDIO (PLAYER + MANAGER LOGIN)
+  ========================================================= -->
+  <section id="id-card-studio" class="relative z-10 py-24 px-4 sm:px-6 bg-gradient-to-b from-transparent via-navyBase/75 to-transparent">
+    <div class="max-w-7xl mx-auto reveal">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
+        <div>
+          <span class="font-tech text-xs sm:text-sm font-bold tracking-[0.25em] uppercase text-neonCyan block mb-2">
+            Official Club Credentials • Player &amp; Manager Access
+          </span>
+          <h2 class="font-display text-5xl sm:text-7xl font-bold uppercase text-white leading-none">
+            JJSC FC <span class="gold-text-gradient">ID CARD</span> STUDIO
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base mt-2 max-w-2xl">
+            Minimalist Black &amp; White photo-free official credentials featuring the colored JhonJhonia FC crest and unique <strong class="text-champGold">JD26</strong> serial IDs. Players log in with their ID &amp; Jersey Number to print their own card; Manager unlocks all 16 cards.
+          </p>
+        </div>
+
+        <div id="idAuthStatusBadge" class="px-4 py-2 rounded-2xl glass-navy border border-champGold/40 font-tech text-xs font-bold uppercase tracking-wider text-champGold self-start lg:self-end">
+          🔒 Gate Locked • Login Required
+        </div>
+      </div>
+
+      <!-- DUAL LOGIN GATE: PLAYER LOGIN + MANAGER PASSCODE -->
+      <div id="idCardLoginGate" class="grid md:grid-cols-2 gap-6 mb-10">
+        <!-- Box 1: Player / Member Self-Service Login -->
+        <div class="glass-navy rounded-3xl p-6 sm:p-8 border border-neonCyan/35">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-2xl bg-neonCyan/15 border border-neonCyan/40 text-neonCyan font-display text-2xl font-bold flex items-center justify-center">
+              ID
+            </div>
+            <div>
+              <span class="font-tech text-[10px] font-bold uppercase tracking-widest text-neonCyan block">Player &amp; Partner Portal</span>
+              <h3 class="font-display text-3xl font-bold uppercase text-white leading-none">PLAYER / MEMBER LOGIN</h3>
+            </div>
+          </div>
+          <p class="text-xs text-slate-300 mb-5">
+            Select your name (<strong class="text-white">JD26</strong> ID) and enter your <strong class="text-neonCyan">Jersey Number</strong> (or <code class="text-champGold">2026</code> for President/Partners) to access and print your personal ID card.
+          </p>
+
+          <form onsubmit="loginPlayerIdCard(event)" class="space-y-3.5">
+            <div>
+              <label for="idPlayerSelect" class="block font-tech text-xs font-bold uppercase tracking-widest text-slate-300 mb-1.5">Select Player / Member *</label>
+              <select id="idPlayerSelect" class="w-full px-4 py-3 rounded-xl bg-navyDeep/90 border border-white/15 focus:border-neonCyan focus:outline-none text-sm text-white">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div>
+              <label for="idPlayerPinInput" class="block font-tech text-xs font-bold uppercase tracking-widest text-slate-300 mb-1.5">Jersey Number / Access Code *</label>
+              <input id="idPlayerPinInput" type="password" required placeholder="e.g. 17 for Aariz, 47 for Hamza..."
+                class="w-full px-4 py-3 rounded-xl bg-navyDeep/90 border border-white/15 focus:border-neonCyan focus:outline-none font-tech tracking-widest text-white" />
+            </div>
+            <p id="idPlayerLoginError" class="hidden text-xs font-tech font-bold text-red-400 uppercase tracking-wider">
+              ✕ Incorrect Jersey Number / Access Code for selected member.
+            </p>
+            <button type="submit" class="w-full bg-gradient-to-r from-neonCyan to-neonLime text-navyDeep font-tech font-bold text-xs sm:text-sm uppercase tracking-widest py-3.5 rounded-xl shadow-lg hover:opacity-95 transition-all">
+              🪪 Unlock My Official ID Card
+            </button>
+          </form>
+        </div>
+
+        <!-- Box 2: Manager Passcode Login (Unlocks All 16 ID Cards + Print All) -->
+        <div class="glass-navy rounded-3xl p-6 sm:p-8 border border-champGold/45">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-2xl bg-champGold/15 border border-champGold/40 text-champGold font-display text-2xl font-bold flex items-center justify-center">
+              👑
+            </div>
+            <div>
+              <span class="font-tech text-[10px] font-bold uppercase tracking-widest text-champGold block">Committee Master Access</span>
+              <h3 class="font-display text-3xl font-bold uppercase text-white leading-none">MANAGER PASSCODE LOGIN</h3>
+            </div>
+          </div>
+          <p class="text-xs text-slate-300 mb-5">
+            Enter the official JJSC FC Manager Passcode to unlock <strong class="text-champGold">all 16 squad &amp; leadership ID cards</strong>, inspect every JD26 credential, and batch-print for lamination.
+          </p>
+
+          <form onsubmit="loginManagerIdCard(event)" class="space-y-3.5">
+            <div>
+              <label for="idManagerPassInput" class="block font-tech text-xs font-bold uppercase tracking-widest text-slate-300 mb-1.5">Manager Passcode *</label>
+              <input id="idManagerPassInput" type="password" required placeholder="Enter Manager Passcode..."
+                class="w-full px-4 py-3 rounded-xl bg-navyDeep/90 border border-champGold/40 focus:border-champGold focus:outline-none font-tech tracking-widest text-white" />
+            </div>
+            <div class="p-3 rounded-xl bg-navyDeep/70 border border-white/10 text-[11px] text-slate-300">
+              Includes all 12 active squad cards (<code class="text-champGold">JD2617</code>, <code class="text-champGold">JD2647</code>, etc.) + President &amp; 3 Official Club Partners.
+            </div>
+            <p id="idManagerLoginError" class="hidden text-xs font-tech font-bold text-red-400 uppercase tracking-wider">
+              ✕ Invalid Manager Passcode!
+            </p>
+            <button type="submit" class="w-full btn-gold font-tech font-bold text-xs sm:text-sm uppercase tracking-widest py-3.5 rounded-xl">
+              🔓 Unlock All 16 Club ID Cards
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- UNLOCKED ID CARDS VIEWPORT -->
+      <div id="idCardUnlockedSection" class="hidden space-y-6">
+        <div class="glass-dark rounded-2xl p-4 sm:p-5 border border-champGold/30 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span id="idSessionHeadline" class="font-display text-2xl sm:text-3xl font-bold uppercase text-white block leading-none">
+              UNLOCKED CREDENTIALS
+            </span>
+            <span id="idSessionSubtext" class="font-tech text-xs text-slate-300 uppercase tracking-wider">
+              Ready for crisp Black &amp; White printing with colored crest
+            </span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5">
+            <button type="button" onclick="printOfficialIdCards()" class="btn-gold px-5 py-2.5 rounded-xl font-tech text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+              <span id="printIdBtnLabel">🖨️ Print ID Card(s)</span>
+            </button>
+            <button type="button" onclick="logoutIdCardSession()" class="px-4 py-2.5 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-400/40 font-tech text-xs font-bold uppercase tracking-wider text-red-200">
+              🔒 Lock / Switch User
+            </button>
+          </div>
+        </div>
+
+        <!-- Printable Grid of Minimalist B&W + Colored Crest ID Cards -->
+        <div id="idCardPrintArea" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <!-- Dynamically rendered ID cards -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
        SECTION 4B: POSTER / MATCHDAY CARD GENERATOR STUDIO
   ========================================================= -->
   <section id="poster-studio" class="relative z-10 py-24 px-4 sm:px-6">
@@ -1346,7 +1513,7 @@
         <!-- TAB 2: FAN EDIT / SUGGESTION FORM -->
         <form id="fanSuggestionForm" onsubmit="submitFanSuggestion(event)" class="hidden space-y-4">
           <div class="p-4 rounded-2xl bg-neonCyan/10 border border-neonCyan/30 text-xs sm:text-sm text-slate-200">
-            <strong class="text-neonCyan font-tech uppercase tracking-wider">Fan Edit Mode:</strong> Propose a starting XI tweak, captaincy/tactical suggestion, or stat update. Your suggestion posts to our local Fan Wall and opens a direct WhatsApp message to Manager Hamza (<strong class="text-champGold">+880 1925-114987</strong>) for committee approval!
+            <strong class="text-neonCyan font-tech uppercase tracking-wider">Community Fan Edit (Website Wall Only):</strong> Propose a starting XI tweak, captaincy/tactical suggestion, or stat update. Your suggestion posts immediately to our community Fan Wall below without modifying official club records, and opens a direct WhatsApp message to Manager Hamza (<strong class="text-champGold">+880 1925-114987</strong>) for committee review!
           </div>
 
           <div class="grid sm:grid-cols-2 gap-4">
@@ -1381,6 +1548,24 @@
             <!-- Populated dynamically -->
           </div>
         </form>
+
+        <!-- INLINE MESSAGE DISPATCH & ONE-CLICK COPY FALLBACK -->
+        <div id="messageDispatchBox" class="hidden mt-6 p-4 sm:p-5 rounded-2xl bg-navyDeep/95 border border-champGold/45 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="font-tech text-xs font-bold uppercase tracking-wider text-neonLime">
+              ✓ Message Formatted &amp; Dispatched to +880 1925-114987
+            </span>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="copyLastFormattedMessage()" class="px-3 py-1.5 rounded-lg bg-champGold text-navyDeep font-tech text-xs font-bold uppercase tracking-wider">
+                📋 Copy Message Text
+              </button>
+              <a id="directWaFallbackLink" href="#" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg bg-neonCyan/20 border border-neonCyan/40 text-neonCyan font-tech text-xs font-bold uppercase tracking-wider">
+                Open WhatsApp ↗
+              </a>
+            </div>
+          </div>
+          <pre id="lastFormattedMessagePreview" class="text-xs text-slate-300 whitespace-pre-wrap font-sans bg-black/30 p-3 rounded-xl border border-white/10"></pre>
+        </div>
       </div>
     </div>
   </section>
@@ -1546,7 +1731,7 @@
             </div>
             <div>
               <label class="block font-tech text-xs font-bold uppercase tracking-widest text-neonCyan mb-1.5">Anthem Audio URL (.mp3/.wav)</label>
-              <input id="editAnthemUrlInput" type="url" placeholder="https://.../anthem.mp3" class="w-full px-4 py-2.5 rounded-xl bg-navyCard border border-white/15 text-sm text-white focus:border-neonCyan focus:outline-none" />
+              <input id="editAnthemUrlInput" type="text" placeholder="jjsc-anthem.mp3.mp3" class="w-full px-4 py-2.5 rounded-xl bg-navyCard border border-white/15 text-sm text-white focus:border-neonCyan focus:outline-none" />
             </div>
           </div>
 
@@ -1571,18 +1756,21 @@
             </table>
           </div>
 
-          <!-- Add New Player + Save / Reset Controls -->
+          <!-- Add New Player + Save / Export / Reset Controls -->
           <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
             <button type="button" onclick="addNewPlayerRow()" class="px-4 py-3 rounded-xl bg-neonCyan/15 hover:bg-neonCyan/25 border border-neonCyan/40 font-tech text-xs font-bold uppercase tracking-wider text-neonCyan">
               + Add New Squad Player
             </button>
 
             <div class="flex flex-wrap items-center gap-3">
+              <button type="button" onclick="exportPermanentClubConfig()" class="px-4 py-3 rounded-xl bg-champGold/15 hover:bg-champGold/25 border border-champGold/45 font-tech text-xs font-bold uppercase tracking-wider text-champGold">
+                📋 Export Permanent Config JSON
+              </button>
               <button type="button" onclick="resetClubDataToDefault()" class="px-4 py-3 rounded-xl bg-white/5 hover:bg-red-500/20 border border-white/15 font-tech text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-red-300">
                 Reset Default Squad
               </button>
               <button type="button" onclick="saveManagerEdits()" class="btn-gold px-6 py-3 rounded-xl font-tech text-xs sm:text-sm font-bold uppercase tracking-widest">
-                💾 Save & Publish Live Changes
+                💾 Save & Publish Permanent Changes
               </button>
             </div>
           </div>
@@ -1710,7 +1898,7 @@
       anthem: {
         title: 'JJSC FC — WE ARE THE CHAMPIONS',
         artist: 'JJSC FC Official Anthem • Jhonjhonia / Gopalganj',
-        url: ''
+        url: 'jjsc-anthem.mp3.mp3'
       },
       players: [
         {
@@ -1914,27 +2102,33 @@
     }
 
     // =========================================================
-    // 1B. JJSC FC CLUB ANTHEM AUDIO ENGINE (URL + FILE + SYNTH BEAT)
+    // 1B. JJSC FC CLUB ANTHEM AUDIO ENGINE (MP3 + GITHUB RAW + SYNTH BEAT)
     // =========================================================
+    const ANTHEM_FALLBACK_SOURCES = [
+      'jjsc-anthem.mp3.mp3',
+      'https://raw.githubusercontent.com/aariz17/JJSC-FC/main/jjsc-anthem.mp3.mp3',
+      'গোপালগঞ্জের_মাটি.mp3',
+      'https://raw.githubusercontent.com/aariz17/JJSC-FC/main/%E0%A6%97%E0%A7%8B%E0%A6%AA%E0%A6%BE%E0%A6%B2%E0%A6%97%E0%A6%9E%E0%A7%8D%E0%A6%9C%E0%A7%87%E0%A6%B0_%E0%A6%AE%E0%A6%BE%E0%A6%9F%E0%A6%BF.mp3'
+    ];
+
     const anthemAudio = new Audio();
-    anthemAudio.crossOrigin = 'anonymous';
     anthemAudio.preload = 'metadata';
 
     let anthemPlaying = false;
     let anthemMuted = false;
     let anthemVolume = 0.8;
-    let usingSynthFallback = true;
+    let usingSynthFallback = false;
+    let anthemCandidateIndex = 0;
     let synthElapsedSec = 0;
     let synthDurationSec = 45;
     let synthTimerInterval = null;
     let audioCtx = null;
     let synthStep = 0;
-    let localObjectUrl = null;
 
     function syncAnthemUI() {
       const title = clubState.anthem?.title || DEFAULT_STATE.anthem.title;
       const artist = clubState.anthem?.artist || DEFAULT_STATE.anthem.artist;
-      const url = (clubState.anthem?.url || '').trim();
+      const url = (clubState.anthem?.url || 'jjsc-anthem.mp3.mp3').trim();
 
       document.getElementById('anthemTitleDisplay').textContent = title;
       document.getElementById('anthemArtistDisplay').textContent = artist;
@@ -1960,13 +2154,12 @@
       });
 
       const badge = document.getElementById('anthemEngineBadge');
-      if (url) {
-        usingSynthFallback = false;
-        if (anthemAudio.src !== url) {
+      if (!usingSynthFallback && url) {
+        if (!anthemAudio.src || !anthemAudio.src.endsWith(encodeURI(url))) {
           anthemAudio.src = url;
         }
-        badge.textContent = '🎧 Custom Audio Track Loaded';
-      } else if (!localObjectUrl) {
+        badge.textContent = '🎧 Official Anthem Ready';
+      } else {
         usingSynthFallback = true;
         badge.textContent = '🔊 Stadium Synth Beat Ready';
       }
@@ -1986,7 +2179,7 @@
       let dur = synthDurationSec;
       if (!usingSynthFallback) {
         cur = anthemAudio.currentTime || 0;
-        dur = isFinite(anthemAudio.duration) && anthemAudio.duration > 0 ? anthemAudio.duration : 0;
+        dur = isFinite(anthemAudio.duration) && anthemAudio.duration > 0 ? anthemAudio.duration : synthDurationSec;
       } else {
         cur = synthElapsedSec;
         dur = synthDurationSec;
@@ -2093,6 +2286,26 @@
       }
     }
 
+    async function tryPlayAudioCandidates() {
+      const primary = (clubState.anthem?.url || '').trim();
+      const candidates = [primary, ...ANTHEM_FALLBACK_SOURCES].filter((v, i, a) => v && a.indexOf(v) === i);
+
+      for (let i = anthemCandidateIndex; i < candidates.length; i++) {
+        try {
+          anthemAudio.src = candidates[i];
+          anthemAudio.volume = anthemMuted ? 0 : anthemVolume;
+          await anthemAudio.play();
+          anthemCandidateIndex = i;
+          usingSynthFallback = false;
+          document.getElementById('anthemEngineBadge').textContent = '🎧 Playing Official Anthem MP3';
+          return true;
+        } catch (err) {
+          // Try next source
+        }
+      }
+      return false;
+    }
+
     async function toggleAnthemPlayback() {
       if (anthemPlaying) {
         anthemPlaying = false;
@@ -2103,20 +2316,12 @@
       }
 
       anthemPlaying = true;
-      anthemAudio.volume = anthemMuted ? 0 : anthemVolume;
-
-      if (!usingSynthFallback && anthemAudio.src) {
-        try {
-          await anthemAudio.play();
-          syncAnthemUI();
-          return;
-        } catch (err) {
-          usingSynthFallback = true;
-          document.getElementById('anthemEngineBadge').textContent = '🔊 Stadium Synth Beat (Fallback)';
-        }
+      const playedMp3 = await tryPlayAudioCandidates();
+      if (!playedMp3) {
+        usingSynthFallback = true;
+        document.getElementById('anthemEngineBadge').textContent = '🔊 Stadium Synth Beat Active';
+        startSynthLoop();
       }
-
-      startSynthLoop();
       syncAnthemUI();
     }
 
@@ -2159,6 +2364,7 @@
 
     function loadAnthemFromUrlInput() {
       const rawUrl = document.getElementById('anthemUrlInput').value.trim();
+      anthemCandidateIndex = 0;
       if (!rawUrl) {
         usingSynthFallback = true;
         clubState.anthem.url = '';
@@ -2170,37 +2376,12 @@
         return;
       }
 
-      if (localObjectUrl) {
-        URL.revokeObjectURL(localObjectUrl);
-        localObjectUrl = null;
-      }
-
       clubState.anthem.url = rawUrl;
       usingSynthFallback = false;
       anthemAudio.src = rawUrl;
       persistClubState();
       syncAnthemUI();
       showToast('Audio URL Loaded', 'Press Play Anthem to stream your track.');
-    }
-
-    function handleLocalAnthemFile(e) {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-
-      if (localObjectUrl) {
-        URL.revokeObjectURL(localObjectUrl);
-      }
-      localObjectUrl = URL.createObjectURL(file);
-      usingSynthFallback = false;
-      anthemAudio.src = localObjectUrl;
-      clubState.anthem.title = file.name.replace(/\.[^/.]+$/, '').toUpperCase();
-      document.getElementById('anthemEngineBadge').textContent = `🎵 Local File: ${file.name}`;
-      syncAnthemUI();
-
-      anthemPlaying = true;
-      anthemAudio.volume = anthemMuted ? 0 : anthemVolume;
-      anthemAudio.play().catch(() => {});
-      showToast('Local Anthem Loaded', `Playing ${file.name}`);
     }
 
     anthemAudio.addEventListener('timeupdate', updateAnthemClockDisplay);
@@ -2221,6 +2402,7 @@
       initEmberCanvas();
       refreshEntireUI();
       initTacticalBoard();
+      initIdCardStudio();
       initScrollReveal();
 
       if (isManagerUnlocked) {
@@ -2250,6 +2432,10 @@
       populatePosterPlayerSelect();
       renderPosterCanvas();
       renderFanSuggestions();
+      populateIdCardMemberSelect();
+      if (idCardSessionRole) {
+        renderUnlockedIdCards();
+      }
 
       if (isManagerUnlocked) {
         renderManagerEditorTable();
@@ -2568,51 +2754,108 @@
     const FORMATION_TEMPLATES = {
       '11v11': {
         '4-3-3 Attack': [
-          [7, 50], [24, 16], [22, 38], [22, 62], [24, 84],
-          [46, 50], [54, 28], [54, 72],
-          [80, 18], [86, 50], [80, 82]
+          { x: 7,  y: 50, roles: ['GK'] },
+          { x: 24, y: 16, roles: ['LB', 'LWB', 'DEF'] },
+          { x: 22, y: 38, roles: ['CB', 'DEF'] },
+          { x: 22, y: 62, roles: ['CB', 'CDM', 'DEF'] },
+          { x: 24, y: 84, roles: ['RB', 'RWB', 'DEF'] },
+          { x: 45, y: 50, roles: ['CDM', 'CM', 'MID'] },
+          { x: 55, y: 28, roles: ['CM', 'CAM', 'MID'] },
+          { x: 55, y: 72, roles: ['CAM', 'CM', 'MID'] },
+          { x: 80, y: 18, roles: ['LW', 'LF', 'FWD'] },
+          { x: 86, y: 50, roles: ['ST', 'CF', 'FWD'] },
+          { x: 80, y: 82, roles: ['RW', 'RF', 'FWD'] }
         ],
         '4-2-3-1 Control': [
-          [7, 50], [24, 16], [22, 38], [22, 62], [24, 84],
-          [42, 36], [42, 64],
-          [64, 20], [66, 50], [64, 80],
-          [86, 50]
+          { x: 7,  y: 50, roles: ['GK'] },
+          { x: 24, y: 16, roles: ['LB', 'DEF'] },
+          { x: 22, y: 38, roles: ['CB', 'DEF'] },
+          { x: 22, y: 62, roles: ['CB', 'DEF'] },
+          { x: 24, y: 84, roles: ['RB', 'DEF'] },
+          { x: 42, y: 36, roles: ['CDM', 'CM', 'MID'] },
+          { x: 42, y: 64, roles: ['CM', 'CDM', 'MID'] },
+          { x: 65, y: 20, roles: ['LW', 'MID', 'FWD'] },
+          { x: 67, y: 50, roles: ['CAM', 'CF', 'MID'] },
+          { x: 65, y: 80, roles: ['RW', 'MID', 'FWD'] },
+          { x: 86, y: 50, roles: ['ST', 'CF', 'FWD'] }
         ],
         '3-5-2 Wingbacks': [
-          [7, 50], [23, 25], [21, 50], [23, 75],
-          [48, 12], [45, 36], [45, 64], [48, 88],
-          [66, 50], [84, 36], [84, 64]
+          { x: 7,  y: 50, roles: ['GK'] },
+          { x: 23, y: 24, roles: ['LB', 'CB', 'DEF'] },
+          { x: 21, y: 50, roles: ['CB', 'DEF'] },
+          { x: 23, y: 76, roles: ['RB', 'CB', 'DEF'] },
+          { x: 48, y: 12, roles: ['LW', 'LB', 'MID'] },
+          { x: 45, y: 36, roles: ['CDM', 'CM', 'MID'] },
+          { x: 45, y: 64, roles: ['CM', 'MID'] },
+          { x: 48, y: 88, roles: ['RW', 'RB', 'MID'] },
+          { x: 66, y: 50, roles: ['CAM', 'MID'] },
+          { x: 84, y: 36, roles: ['ST', 'CF', 'FWD'] },
+          { x: 84, y: 64, roles: ['CF', 'ST', 'FWD'] }
         ]
       },
       '7v7': {
         '3-2-1 Balanced': [
-          [8, 50], [28, 22], [25, 50], [28, 78],
-          [55, 34], [55, 66], [82, 50]
+          { x: 8,  y: 50, roles: ['GK'] },
+          { x: 28, y: 20, roles: ['LB', 'DEF'] },
+          { x: 25, y: 50, roles: ['CB', 'DEF'] },
+          { x: 28, y: 80, roles: ['RB', 'DEF'] },
+          { x: 55, y: 34, roles: ['CAM', 'CM', 'MID'] },
+          { x: 55, y: 66, roles: ['CM', 'CDM', 'MID'] },
+          { x: 83, y: 50, roles: ['ST', 'CF', 'FWD'] }
         ],
         '2-3-1 Pressing': [
-          [8, 50], [28, 32], [28, 68],
-          [54, 18], [52, 50], [54, 82], [82, 50]
+          { x: 8,  y: 50, roles: ['GK'] },
+          { x: 28, y: 32, roles: ['CB', 'LB', 'DEF'] },
+          { x: 28, y: 68, roles: ['RB', 'CB', 'DEF'] },
+          { x: 54, y: 18, roles: ['LW', 'MID', 'FWD'] },
+          { x: 52, y: 50, roles: ['CAM', 'CM', 'MID'] },
+          { x: 54, y: 82, roles: ['RW', 'MID', 'FWD'] },
+          { x: 83, y: 50, roles: ['ST', 'CF', 'FWD'] }
         ]
       },
       '6v6': {
         '2-2-1 Diamond': [
-          [8, 50], [30, 30], [30, 70],
-          [58, 26], [58, 74], [83, 50]
+          { x: 8,  y: 50, roles: ['GK'] },
+          { x: 30, y: 28, roles: ['CB', 'LB', 'DEF'] },
+          { x: 30, y: 72, roles: ['RB', 'CB', 'DEF'] },
+          { x: 58, y: 26, roles: ['CAM', 'CM', 'MID'] },
+          { x: 58, y: 74, roles: ['RW', 'LW', 'MID', 'FWD'] },
+          { x: 83, y: 50, roles: ['ST', 'CF', 'FWD'] }
         ],
         '3-1-1 Counter': [
-          [8, 50], [30, 20], [27, 50], [30, 80],
-          [56, 50], [83, 50]
+          { x: 8,  y: 50, roles: ['GK'] },
+          { x: 30, y: 20, roles: ['LB', 'DEF'] },
+          { x: 27, y: 50, roles: ['CB', 'DEF'] },
+          { x: 30, y: 80, roles: ['RB', 'DEF'] },
+          { x: 56, y: 50, roles: ['CAM', 'CM', 'MID'] },
+          { x: 83, y: 50, roles: ['ST', 'CF', 'FWD'] }
         ]
       },
       '4v4': {
         '1-2-1 Victory Diamond': [
-          [18, 50], [50, 24], [50, 76], [82, 50]
+          { x: 18, y: 50, roles: ['CB', 'DEF', 'CDM'] },
+          { x: 50, y: 24, roles: ['CAM', 'CM', 'MID'] },
+          { x: 50, y: 76, roles: ['RW', 'LW', 'MID', 'FWD'] },
+          { x: 82, y: 50, roles: ['ST', 'CF', 'FWD'] }
         ],
         '2-2 Victory Box': [
-          [26, 30], [26, 70], [74, 30], [74, 70]
+          { x: 26, y: 30, roles: ['CB', 'DEF'] },
+          { x: 26, y: 70, roles: ['CAM', 'CDM', 'MID'] },
+          { x: 74, y: 30, roles: ['RW', 'LW', 'FWD'] },
+          { x: 74, y: 70, roles: ['ST', 'CF', 'FWD'] }
         ]
       }
     };
+
+    function pickBestPlayerForSlot(slotRoles, availablePool) {
+      for (const role of slotRoles) {
+        const idx = availablePool.findIndex(p => p.pos.toUpperCase() === role || p.group.toUpperCase() === role);
+        if (idx !== -1) {
+          return availablePool.splice(idx, 1)[0];
+        }
+      }
+      return availablePool.shift();
+    }
 
     function initTacticalBoard() {
       setupTacticalDrawCanvas();
@@ -2643,42 +2886,40 @@
       const presets = Object.keys(FORMATION_TEMPLATES[fmt]);
       select.innerHTML = presets.map(name => `<option value="${name}">${name}</option>`).join('');
 
-      const countMap = { '11v11': 11, '7v7': 7, '6v6': 6, '4v4': 4 };
-      const starterCount = countMap[fmt];
-
       const nonSubs = clubState.players.filter(p => !p.isSub);
       const subs = clubState.players.filter(p => p.isSub);
-      const orderedPool = [...nonSubs, ...subs];
+      const availablePool = [...nonSubs, ...subs];
 
-      if (fmt !== '4v4') {
-        const gkIdx = orderedPool.findIndex(p => p.pos === 'GK');
-        if (gkIdx > 0) {
-          const [gk] = orderedPool.splice(gkIdx, 1);
-          orderedPool.unshift(gk);
-        }
-      }
+      const slots = FORMATION_TEMPLATES[fmt][presets[0]];
+      pitchTokens = slots.map(slot => {
+        const chosen = pickBestPlayerForSlot(slot.roles, availablePool);
+        return {
+          playerId: chosen.id,
+          xPct: slot.x,
+          yPct: slot.y
+        };
+      });
 
-      const activePlayers = orderedPool.slice(0, starterCount);
-      benchIds = orderedPool.slice(starterCount).map(p => p.id);
-
-      const defaultCoords = FORMATION_TEMPLATES[fmt][presets[0]];
-      pitchTokens = activePlayers.map((p, i) => ({
-        playerId: p.id,
-        xPct: defaultCoords[i] ? defaultCoords[i][0] : 50,
-        yPct: defaultCoords[i] ? defaultCoords[i][1] : 50
-      }));
-
+      benchIds = availablePool.map(p => p.id);
       renderPitchTokensAndBench();
     }
 
     function applyFormationPreset(presetName) {
-      const coords = FORMATION_TEMPLATES[currentTacticalFormat][presetName];
-      if (!coords) return;
-      pitchTokens.forEach((tok, i) => {
-        if (coords[i]) {
-          tok.xPct = coords[i][0];
-          tok.yPct = coords[i][1];
-        }
+      const slots = FORMATION_TEMPLATES[currentTacticalFormat][presetName];
+      if (!slots) return;
+
+      const currentIds = pitchTokens.map(t => t.playerId);
+      const activePool = currentIds
+        .map(id => clubState.players.find(p => p.id === id))
+        .filter(Boolean);
+
+      pitchTokens = slots.map(slot => {
+        const chosen = pickBestPlayerForSlot(slot.roles, activePool) || pitchTokens[0];
+        return {
+          playerId: chosen.id || chosen.playerId,
+          xPct: slot.x,
+          yPct: slot.y
+        };
       });
       renderPitchTokensAndBench();
     }
@@ -2914,15 +3155,20 @@
       const starterList = pitchTokens.map((t, i) => {
         const p = clubState.players.find(pl => pl.id === t.playerId);
         return `${i + 1}. ${p.name} (#${p.number} - ${p.pos})${p.isCaptain ? ' [C]' : ''}`;
-      }).join('%0A');
+      }).join('\n');
 
       const benchList = benchIds.map(id => {
         const p = clubState.players.find(pl => pl.id === id);
         return `${p.name} (#${p.number})`;
       }).join(', ');
 
-      const text = `*JJSC FC OFFICIAL LINEUP (${currentTacticalFormat.toUpperCase()})*%0A*Formation:* ${formation}%0A%0A*Starters:*%0A${starterList}%0A%0A*Bench:* ${benchList}`;
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+      const plainMsg =
+        `*JJSC FC OFFICIAL LINEUP (${currentTacticalFormat.toUpperCase()})*\n` +
+        `*Formation:* ${formation}\n\n` +
+        `*Starters:*\n${starterList}\n\n` +
+        `*Bench:* ${benchList}`;
+
+      dispatchFormattedWhatsAppMessage(plainMsg);
     }
 
     // =========================================================
@@ -2993,20 +3239,20 @@
       const unitPrice = Number(clubState.jerseyPrice || 520);
       const total = qty * unitPrice;
 
-      const msg =
-        `*JJSC FC OFFICIAL HOME JERSEY ORDER*%0A` +
-        `-----------------------------%0A` +
-        `*Edition:* Royal Navy Home Kit (৳${unitPrice})%0A` +
-        `*Print Name:* ${backName}%0A` +
-        `*Jersey Number:* #${backNum}%0A` +
-        `*Size:* ${selectedOrderSize}%0A` +
-        `*Quantity:* ${qty}%0A` +
-        `*Total Payable:* ৳${total}%0A` +
-        `-----------------------------%0A` +
-        `*Customer:* ${buyerName}%0A` +
+      const plainMsg =
+        `*JJSC FC OFFICIAL HOME JERSEY ORDER*\n` +
+        `-----------------------------\n` +
+        `*Edition:* Royal Navy Home Kit (৳${unitPrice})\n` +
+        `*Print Name:* ${backName}\n` +
+        `*Jersey Number:* #${backNum}\n` +
+        `*Size:* ${selectedOrderSize}\n` +
+        `*Quantity:* ${qty}\n` +
+        `*Total Payable:* ৳${total}\n` +
+        `-----------------------------\n` +
+        `*Customer:* ${buyerName}\n` +
         `*Contact / Address:* ${buyerPhone}`;
 
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+      dispatchFormattedWhatsAppMessage(plainMsg);
     }
 
     // =========================================================
@@ -3222,20 +3468,50 @@
       const venue = document.getElementById('posterVenueInput').value.trim();
       const caption = document.getElementById('posterCaptionInput').value.trim();
 
-      const msg =
-        `*JJSC FC — ${headline.toUpperCase()}*%0A` +
-        `-----------------------------%0A` +
-        `*${matchup}*%0A` +
-        `${venue}%0A%0A` +
-        `${caption}%0A` +
+      const plainMsg =
+        `*JJSC FC — ${headline.toUpperCase()}*\n` +
+        `-----------------------------\n` +
+        `*${matchup}*\n` +
+        `${venue}\n\n` +
+        `${caption}\n` +
         `Jhonjhonia Jubo Sporting Club • +880 1925-114987`;
 
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+      dispatchFormattedWhatsAppMessage(plainMsg);
     }
 
     // =========================================================
-    // 8. MATCH CHALLENGE & FAN EDIT (SUGGESTION) -> WHATSAPP
+    // 8. MATCH CHALLENGE & FAN EDIT (SUGGESTION) -> WHATSAPP + COPY FALLBACK
     // =========================================================
+    let lastFormattedWhatsAppPlain = '';
+
+    function dispatchFormattedWhatsAppMessage(plainText) {
+      lastFormattedWhatsAppPlain = plainText;
+      const encoded = encodeURIComponent(plainText);
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
+
+      const box = document.getElementById('messageDispatchBox');
+      const preview = document.getElementById('lastFormattedMessagePreview');
+      const link = document.getElementById('directWaFallbackLink');
+      if (box && preview && link) {
+        preview.textContent = plainText;
+        link.href = waUrl;
+        box.classList.remove('hidden');
+      }
+
+      window.open(waUrl, '_blank', 'noopener');
+    }
+
+    function copyLastFormattedMessage() {
+      if (!lastFormattedWhatsAppPlain) return;
+      const ta = document.createElement('textarea');
+      ta.value = lastFormattedWhatsAppPlain;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Copied!', 'Formatted JJSC FC message copied to clipboard.');
+    }
+
     function switchHubTab(tab) {
       const matchForm = document.getElementById('matchChallengeForm');
       const fanForm = document.getElementById('fanSuggestionForm');
@@ -3264,17 +3540,18 @@
       const venue = document.getElementById('oppMatchVenue').value.trim();
       const notes = document.getElementById('oppMatchNotes').value.trim() || 'Standard rules';
 
-      const msg =
-        `*⚔️ OFFICIAL MATCH CHALLENGE TO JJSC FC*%0A` +
-        `-----------------------------%0A` +
-        `*Opponent Club:* ${club}%0A` +
-        `*Contact Person:* ${manager}%0A` +
-        `*Match Format:* ${format}%0A` +
-        `*Date & Time:* ${date}%0A` +
-        `*Ground / Venue:* ${venue}%0A` +
+      const plainMsg =
+        `*⚔️ OFFICIAL MATCH CHALLENGE TO JJSC FC*\n` +
+        `-----------------------------\n` +
+        `*Opponent Club:* ${club}\n` +
+        `*Contact Person:* ${manager}\n` +
+        `*Match Format:* ${format}\n` +
+        `*Date & Time:* ${date}\n` +
+        `*Ground / Venue:* ${venue}\n` +
         `*Match Notes:* ${notes}`;
 
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+      dispatchFormattedWhatsAppMessage(plainMsg);
+      showToast('Challenge Ready', 'Opening WhatsApp & saved message preview below.');
     }
 
     function submitFanSuggestion(e) {
@@ -3287,15 +3564,16 @@
       persistClubState();
       renderFanSuggestions();
 
-      const msg =
-        `*💡 JJSC FC FAN EDIT / SUGGESTION*%0A` +
-        `-----------------------------%0A` +
-        `*From Fan:* ${fan}%0A` +
-        `*Category:* ${category}%0A` +
+      const plainMsg =
+        `*💡 JJSC FC FAN EDIT / SUGGESTION*\n` +
+        `-----------------------------\n` +
+        `*From Fan:* ${fan}\n` +
+        `*Category:* ${category}\n` +
         `*Suggestion:* ${text}`;
 
       document.getElementById('fanMessageInput').value = '';
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+      dispatchFormattedWhatsAppMessage(plainMsg);
+      showToast('Fan Suggestion Posted', 'Posted to Fan Wall & prepared for WhatsApp.');
     }
 
     function renderFanSuggestions() {
@@ -3310,6 +3588,228 @@
           <p class="text-xs text-slate-300">${item.text}</p>
         </div>
       `).join('');
+    }
+
+    // =========================================================
+    // 8B. OFFICIAL ID CARD STUDIO (PLAYER LOGIN + MANAGER PASSCODE)
+    // =========================================================
+    let idCardSessionRole = null; // 'player' | 'manager' | null
+    let idCardLoggedMemberId = null;
+
+    function getAllClubIdRecords() {
+      const playerRecords = clubState.players.map(p => {
+        const paddedNum = String(p.number).padStart(2, '0');
+        return {
+          recordId: p.id,
+          serialId: `JD26${paddedNum}`,
+          name: p.name.toUpperCase(),
+          category: 'PLAYER',
+          position: p.pos.toUpperCase(),
+          role: p.isCaptain ? 'CAPTAIN • ORGANISER' : p.badge.toUpperCase(),
+          pin: String(p.number)
+        };
+      });
+
+      const leadershipRecords = [
+        {
+          recordId: 'ldr_meherun',
+          serialId: 'JD26P1',
+          name: 'MEHERUN NESA',
+          category: 'LEADERSHIP',
+          position: 'EXECUTIVE',
+          role: 'CLUB PRESIDENT',
+          pin: '2026'
+        },
+        {
+          recordId: 'ldr_arshiya',
+          serialId: 'JD26P2',
+          name: 'ARSHIYA HASSAN',
+          category: 'LEADERSHIP',
+          position: 'PARTNER',
+          role: 'CLUB PARTNER',
+          pin: '2026'
+        },
+        {
+          recordId: 'ldr_tarik',
+          serialId: 'JD26P3',
+          name: 'TARIK HASSAN',
+          category: 'LEADERSHIP',
+          position: 'PARTNER',
+          role: 'CLUB PARTNER',
+          pin: '2026'
+        },
+        {
+          recordId: 'ldr_amjad',
+          serialId: 'JD26P4',
+          name: 'AMJAD HOSSAIN',
+          category: 'LEADERSHIP',
+          position: 'PARTNER',
+          role: 'CLUB PARTNER',
+          pin: '2026'
+        }
+      ];
+
+      return [...playerRecords, ...leadershipRecords];
+    }
+
+    function initIdCardStudio() {
+      populateIdCardMemberSelect();
+    }
+
+    function populateIdCardMemberSelect() {
+      const select = document.getElementById('idPlayerSelect');
+      if (!select) return;
+      const records = getAllClubIdRecords();
+      select.innerHTML = records.map(r =>
+        `<option value="${r.recordId}">${r.name} — ID: ${r.serialId} (${r.category})</option>`
+      ).join('');
+    }
+
+    function loginPlayerIdCard(e) {
+      e.preventDefault();
+      const selectedId = document.getElementById('idPlayerSelect').value;
+      const pinVal = document.getElementById('idPlayerPinInput').value.trim();
+      const err = document.getElementById('idPlayerLoginError');
+
+      const records = getAllClubIdRecords();
+      const match = records.find(r => r.recordId === selectedId);
+
+      if (match && (pinVal === match.pin || pinVal === match.serialId || pinVal === MANAGER_PASSWORD)) {
+        err.classList.add('hidden');
+        document.getElementById('idPlayerPinInput').value = '';
+        idCardSessionRole = 'player';
+        idCardLoggedMemberId = match.recordId;
+        renderUnlockedIdCards();
+        showToast('ID Card Unlocked', `Welcome ${match.name} (${match.serialId})!`);
+      } else {
+        err.classList.remove('hidden');
+      }
+    }
+
+    function loginManagerIdCard(e) {
+      e.preventDefault();
+      const passInput = document.getElementById('idManagerPassInput');
+      const err = document.getElementById('idManagerLoginError');
+
+      if (passInput.value === MANAGER_PASSWORD) {
+        err.classList.add('hidden');
+        passInput.value = '';
+        idCardSessionRole = 'manager';
+        idCardLoggedMemberId = null;
+        renderUnlockedIdCards();
+        showToast('Manager Access Granted', 'All 16 JJSC FC official ID cards unlocked.');
+      } else {
+        err.classList.remove('hidden');
+        passInput.classList.add('animate-shake', 'border-red-500');
+        setTimeout(() => passInput.classList.remove('animate-shake'), 450);
+      }
+    }
+
+    function logoutIdCardSession() {
+      idCardSessionRole = null;
+      idCardLoggedMemberId = null;
+      document.getElementById('idCardLoginGate').classList.remove('hidden');
+      document.getElementById('idCardUnlockedSection').classList.add('hidden');
+      document.getElementById('idAuthStatusBadge').textContent = '🔒 Gate Locked • Login Required';
+      showToast('ID Studio Locked', 'Credential session closed.');
+    }
+
+    function renderUnlockedIdCards() {
+      const gate = document.getElementById('idCardLoginGate');
+      const section = document.getElementById('idCardUnlockedSection');
+      const area = document.getElementById('idCardPrintArea');
+      const statusBadge = document.getElementById('idAuthStatusBadge');
+      const headline = document.getElementById('idSessionHeadline');
+      const subtext = document.getElementById('idSessionSubtext');
+      const printLabel = document.getElementById('printIdBtnLabel');
+
+      const allRecords = getAllClubIdRecords();
+      const visibleRecords = idCardSessionRole === 'manager'
+        ? allRecords
+        : allRecords.filter(r => r.recordId === idCardLoggedMemberId);
+
+      gate.classList.add('hidden');
+      section.classList.remove('hidden');
+
+      if (idCardSessionRole === 'manager') {
+        statusBadge.textContent = `🔓 MANAGER MASTER ACCESS • ALL ${visibleRecords.length} CARDS`;
+        headline.textContent = `ALL ${visibleRecords.length} OFFICIAL CLUB ID CARDS`;
+        subtext.textContent = 'Manager Passcode Verified • Print single or full A4 squad sheet';
+        if (printLabel) printLabel.textContent = `🖨️ Print All ${visibleRecords.length} Cards (A4 Sheet)`;
+      } else if (visibleRecords[0]) {
+        statusBadge.textContent = `🪪 PLAYER VERIFIED • ${visibleRecords[0].serialId}`;
+        headline.textContent = `${visibleRecords[0].name} — OFFICIAL ID CARD`;
+        subtext.textContent = `Serial ${visibleRecords[0].serialId} • Ready to Print`;
+        if (printLabel) printLabel.textContent = `🖨️ Print My ID Card (${visibleRecords[0].serialId})`;
+      }
+
+      area.innerHTML = visibleRecords.map(card => `
+        <div class="jjsc-id-card rounded-2xl p-6 flex flex-col justify-between min-h-[395px]">
+          <!-- Top Header: Colored JhonJhonia FC Crest + Club Title -->
+          <div class="text-center border-b-2 border-black pb-3.5">
+            <div class="w-16 h-20 mx-auto mb-2">
+              <svg viewBox="0 0 200 235" class="w-full h-full">
+                <path d="M100 10 L182 36 V112 C182 166 146 205 100 225 C54 205 18 166 18 112 V36 Z" fill="#0E1C4D" stroke="#F5C542" stroke-width="7"/>
+                <path d="M100 18 L174 42 V111 C174 160 141 196 100 215 C59 196 26 160 26 111 V42 Z" fill="none" stroke="#FFE066" stroke-width="1.8" stroke-dasharray="4 3"/>
+                <path d="M84 54 A16 16 0 0 1 116 54 Z" fill="#F5C542"/>
+                <path d="M74 60 Q87 55 100 60 T126 60" fill="none" stroke="#F5C542" stroke-width="2.8" stroke-linecap="round"/>
+                <text x="100" y="96" text-anchor="middle" fill="#F5C542" font-family="Playfair Display, serif" font-style="italic" font-weight="800" font-size="25">JhonJhonia</text>
+                <text x="100" y="121" text-anchor="middle" fill="#F5C542" font-family="Teko, sans-serif" font-weight="700" font-size="26" letter-spacing="2">FC</text>
+                <path d="M96 132 C76 134 65 150 68 172 C74 164 81 163 85 167 C82 155 88 147 98 145 Z" fill="#F5C542"/>
+                <circle cx="110" cy="166" r="18" fill="#0E1C4D" stroke="#F5C542" stroke-width="3"/>
+                <polygon points="110,157 118,163 115,172 105,172 102,163" fill="none" stroke="#F5C542" stroke-width="2"/>
+              </svg>
+            </div>
+            <h4 class="font-display text-2xl font-bold tracking-wider uppercase text-black leading-none">
+              JJSC FC OFFICIAL PASS
+            </h4>
+            <p class="font-tech text-[9px] font-bold tracking-[0.2em] uppercase text-neutral-700 mt-1">
+              JHONJHONIA JUBO SPORTING CLUB
+            </p>
+          </div>
+
+          <!-- Minimalist B&W Credential Fields (No Photo Box) -->
+          <div class="my-4 space-y-2.5 text-left font-tech text-xs">
+            <div class="flex items-baseline justify-between border-b border-neutral-300 pb-1">
+              <span class="font-bold text-neutral-600 uppercase tracking-wider">ID:</span>
+              <span class="font-display text-2xl font-bold tracking-widest text-black">${card.serialId}</span>
+            </div>
+            <div class="flex items-baseline justify-between border-b border-neutral-300 pb-1">
+              <span class="font-bold text-neutral-600 uppercase tracking-wider">NAME:</span>
+              <span class="font-bold text-sm text-black uppercase">${card.name}</span>
+            </div>
+            <div class="flex items-baseline justify-between border-b border-neutral-300 pb-1">
+              <span class="font-bold text-neutral-600 uppercase tracking-wider">CATEGORY:</span>
+              <span class="px-2 py-0.5 border border-black font-bold text-[10px] text-black uppercase">${card.category}</span>
+            </div>
+            <div class="flex items-baseline justify-between border-b border-neutral-300 pb-1">
+              <span class="font-bold text-neutral-600 uppercase tracking-wider">POSITION:</span>
+              <span class="font-bold text-xs text-black uppercase">${card.position}</span>
+            </div>
+            <div class="flex items-baseline justify-between border-b border-neutral-300 pb-1">
+              <span class="font-bold text-neutral-600 uppercase tracking-wider">ROLE:</span>
+              <span class="font-bold text-[11px] text-black uppercase text-right">${card.role}</span>
+            </div>
+          </div>
+
+          <!-- Signature Footer -->
+          <div class="pt-3 mt-auto flex items-end justify-between gap-4">
+            <div class="font-tech text-[9px] font-bold uppercase tracking-widest text-neutral-600">
+              SEASON 2026<br/>VALID PASS
+            </div>
+            <div class="text-center">
+              <div class="w-28 border-b border-black mb-1"></div>
+              <span class="font-tech text-[9px] font-bold uppercase tracking-widest text-black block">
+                SIGNATURE
+              </span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function printOfficialIdCards() {
+      window.print();
     }
 
     // =========================================================
@@ -3352,7 +3852,7 @@
       document.getElementById('editPriceInput').value = clubState.jerseyPrice;
       document.getElementById('editAnthemTitleInput').value = clubState.anthem?.title || DEFAULT_STATE.anthem.title;
       document.getElementById('editAnthemArtistInput').value = clubState.anthem?.artist || DEFAULT_STATE.anthem.artist;
-      document.getElementById('editAnthemUrlInput').value = clubState.anthem?.url || '';
+      document.getElementById('editAnthemUrlInput').value = clubState.anthem?.url || 'jjsc-anthem.mp3.mp3';
       renderManagerEditorTable();
     }
 
@@ -3450,7 +3950,7 @@
       clubState.anthem = {
         title: newAnthemTitle || DEFAULT_STATE.anthem.title,
         artist: newAnthemArtist || DEFAULT_STATE.anthem.artist,
-        url: newAnthemUrl
+        url: newAnthemUrl || 'jjsc-anthem.mp3.mp3'
       };
 
       document.querySelectorAll('.mgr-input').forEach(el => {
@@ -3470,7 +3970,18 @@
       persistClubState();
       refreshEntireUI();
       setTacticalFormat(currentTacticalFormat);
-      showToast('Live Site Updated!', 'All JJSC FC stats, anthem settings, roster & pricing saved.');
+      showToast('Official Records Saved!', 'Permanent JJSC FC stats, IDs, anthem & pricing published.');
+    }
+
+    function exportPermanentClubConfig() {
+      const jsonStr = JSON.stringify(clubState, null, 2);
+      const ta = document.createElement('textarea');
+      ta.value = jsonStr;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Config Copied!', 'Official club JSON copied for permanent GitHub backup.');
     }
 
     function resetClubDataToDefault() {
